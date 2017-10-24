@@ -2,6 +2,7 @@ package tn.codeinc.persistance;
 
 import java.io.Serializable;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -12,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -33,9 +36,24 @@ public class User implements Serializable {
 	@JsonIgnore
 	@OneToMany(targetEntity=Event.class,fetch=FetchType.EAGER)
 	private List<Event> myEvents;
-	
+	@JsonIgnore
 	@ManyToMany
 	private List<Event> myParticipation;
+	@OneToMany(mappedBy="user",fetch=FetchType.EAGER)
+	
+	@JsonIgnore
+	
+	private List<TestLevel> levelTests;
+	@OneToMany(fetch=FetchType.EAGER,mappedBy="user")
+	@JsonIgnore
+	private List<CourseReview> reviews;
+	@OneToMany(mappedBy="user",fetch=FetchType.EAGER)
+	@JsonIgnore
+	private List<CourseParticipation> participations;
+	@JsonIgnore
+	@OneToMany(fetch=FetchType.EAGER,mappedBy="user")
+	private List<Notification> lstNotif;
+	
 	
 	/*@OneToMany
 	private List<EventInvitation> eventInvitationsSender;
@@ -91,6 +109,35 @@ public class User implements Serializable {
 	
 	
 	
+	
+
+	public User(Integer id, String login, String firstName, String lastName, String email, String phoneNumber,
+			String plainPassword, String password, UserRole role, List<Event> myEvents, List<Event> myParticipation,
+			List<TestLevel> levelTests, List<CourseReview> reviews, List<CourseParticipation> participations,
+			List<Notification> lstNotif, List<AdAreaPurchaseRequest> purchaseRequests, Address address,
+			boolean isBanned, boolean isConfirmed, String confirmationCode) {
+		super();
+		this.id = id;
+		this.login = login;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.plainPassword = plainPassword;
+		this.password = password;
+		this.role = role;
+		this.myEvents = myEvents;
+		this.myParticipation = myParticipation;
+		this.levelTests = levelTests;
+		this.reviews = reviews;
+		this.participations = participations;
+		this.lstNotif = lstNotif;
+		this.purchaseRequests = purchaseRequests;
+		this.address = address;
+		this.isBanned = isBanned;
+		this.isConfirmed = isConfirmed;
+		this.confirmationCode = confirmationCode;
+	}
 
 	public List<Event> getMyParticipation() {
 		return myParticipation;
@@ -220,6 +267,58 @@ public class User implements Serializable {
 	}
 	
 
+	public String getPlainPassword() {
+		return plainPassword;
+	}
+
+	public void setPlainPassword(String plainPassword) {
+		this.plainPassword = plainPassword;
+	}
+
+	public List<TestLevel> getLevelTests() {
+		return levelTests;
+	}
+
+	public void setLevelTests(List<TestLevel> levelTests) {
+		this.levelTests = levelTests;
+	}
+
+	public List<CourseReview> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<CourseReview> reviews) {
+		this.reviews = reviews;
+	}
+
+	public List<CourseParticipation> getParticipations() {
+		return participations;
+	}
+
+	public void setParticipations(List<CourseParticipation> participations) {
+		this.participations = participations;
+	}
+
+	public List<Notification> getLstNotif() {
+		return lstNotif;
+	}
+
+	public void setLstNotif(List<Notification> lstNotif) {
+		this.lstNotif = lstNotif;
+	}
+
+	public List<AdAreaPurchaseRequest> getPurchaseRequests() {
+		return purchaseRequests;
+	}
+
+	public void setPurchaseRequests(List<AdAreaPurchaseRequest> purchaseRequests) {
+		this.purchaseRequests = purchaseRequests;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", login=" + login + ", firstName=" + firstName + ", lastName=" + lastName
@@ -237,6 +336,6 @@ public class User implements Serializable {
 	public String getConfirmationCode() {
 		return confirmationCode;
 	}
-
+	
 	
 }
