@@ -3,6 +3,7 @@ package tn.codeinc.services;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -10,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
+import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.exceptions.AdAreaRequestDuplicationException;
 import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.persistance.AdArea;
@@ -20,6 +22,9 @@ import tn.codeinc.persistance.AdAreaPurchaseRequest;
 public class AdAreaManagement implements AdAreaManagementLocal, AdAreaManagementRemote {
 	@PersistenceContext
 	private EntityManager em;
+	
+	@Inject
+	CurrentUserLocal currentUser;
 
 	@Override
 	public List<AdArea> getAll() {
@@ -72,11 +77,10 @@ public class AdAreaManagement implements AdAreaManagementLocal, AdAreaManagement
 				&& (i.contains(pr.getStartDate().getTime()) || i.contains(pr.getEndDate().getTime())))) {
 			throw new AdAreaRequestDuplicationException("You have duplicated your ad area request");
 		}
+		pr.setUser(currentUser.get());
 		pr.setAdArea(a);
-		//a.getPurchaseRequests().add(pr);
-		//em.persist(pr);
-		//em.merge(a);
-		//em.flush();
+		pr.generateId();
+		em.persist(pr);
 		
 		System.out.println("AdAreaManagement.addPurchaseRequest() "+pr);
 		

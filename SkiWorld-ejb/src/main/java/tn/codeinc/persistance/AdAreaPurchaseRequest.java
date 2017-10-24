@@ -85,4 +85,19 @@ public class AdAreaPurchaseRequest {
 				+ user + ", adArea=" + adArea + "]";
 	}
 
+	public AdAreaPurchaseRequest(Date startDate, Date endDate, AdArea adArea ,User user) {
+		super();
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.adArea = adArea;
+		this.id = new AdAreaPurchaseRequestId(adArea.getId(),user.getId());
+	}
+	
+	public void generateId(){
+		this.id = new AdAreaPurchaseRequestId(this.user.getId(),this.adArea.getId());
+	}
+	
+	
+	
+
 }
