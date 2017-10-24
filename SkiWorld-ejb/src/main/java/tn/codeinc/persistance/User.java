@@ -236,6 +236,7 @@ public class User implements Serializable {
 		return true;
 	}
 
+	@JsonIgnore
 	public boolean isSuperAdmin() {
 		return this.role == UserRole.ROLE_SUPER_ADMIN;
 	}

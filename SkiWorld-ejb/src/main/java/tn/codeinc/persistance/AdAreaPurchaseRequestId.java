@@ -1,10 +1,8 @@
 package tn.codeinc.persistance;
 
 import java.io.Serializable;
-
 import javax.persistence.Embeddable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Embeddable
 public class AdAreaPurchaseRequestId  implements Serializable{
@@ -16,6 +14,8 @@ public class AdAreaPurchaseRequestId  implements Serializable{
 	private Integer user;
 	
 	private Integer adArea;
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -74,6 +74,8 @@ public class AdAreaPurchaseRequestId  implements Serializable{
 	public AdAreaPurchaseRequestId() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 	
 	
 	

@@ -2,7 +2,6 @@ package tn.codeinc.client;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
-
 import tn.codeinc.persistance.User;
 
 @Stateful

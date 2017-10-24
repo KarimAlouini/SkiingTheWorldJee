@@ -47,7 +47,7 @@ public class AdAreaSecureService {
 		adAreas.insert(adArea);
 		return Response.ok().entity(new ResponseMessage(0, "Added successfully")).build();
 	}
-	
+
 	@PUT
 	@Path("/request")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -55,20 +55,20 @@ public class AdAreaSecureService {
 	public Response addRequest(AdAreaPurchaseRequest request) {
 		if (currentUser.get().getRole() != UserRole.ROLE_SUPER_ADMIN)
 			return Response.status(Status.UNAUTHORIZED).build();
-		
+
 		request.setUser(currentUser.get());
 		try {
 			adAreas.addPurchaseRequest(request);
 		} catch (ElementNotFoundException e) {
-			
+
 			e.printStackTrace();
-			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+			return Response.status(Status.BAD_REQUEST).entity(new ResponseMessage(1, e.getMessage())).build();
 		} catch (AdAreaRequestDuplicationException e) {
-			
+
 			e.printStackTrace();
-			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+			return Response.status(Status.BAD_REQUEST).entity(new ResponseMessage(1, e.getMessage())).build();
 		}
-		
+
 		return Response.ok().entity(new ResponseMessage(0, "Added successfully")).build();
 	}
 

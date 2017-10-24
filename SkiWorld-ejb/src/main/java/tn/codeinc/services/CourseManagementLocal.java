@@ -3,10 +3,8 @@ package tn.codeinc.services;
 
 import java.util.Date;
 import java.util.List;
-
 import javax.ejb.Local;
 import javax.ejb.Remote;
-
 import tn.codeinc.persistance.CourseParticipation;
 import tn.codeinc.persistance.Courses;
 import tn.codeinc.persistance.Notification;

@@ -3,14 +3,10 @@ package tn.codeinc.services;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-
 import tn.codeinc.persistance.CourseParticipation;
 import tn.codeinc.persistance.CourseState;
 import tn.codeinc.persistance.Courses;

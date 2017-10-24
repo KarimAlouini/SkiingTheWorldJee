@@ -7,10 +7,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
-
 import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.exceptions.AdAreaRequestDuplicationException;
 import tn.codeinc.exceptions.ElementNotFoundException;

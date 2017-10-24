@@ -3,13 +3,8 @@ package tn.codeinc.services;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-
 import tn.codeinc.exceptions.AuthenticationException;
 import tn.codeinc.persistance.AccessToken;
 import tn.codeinc.persistance.User;
