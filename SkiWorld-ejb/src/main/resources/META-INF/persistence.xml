@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="SkiWorld-ejb">
+		<jta-data-source>java:/skiworldDS</jta-data-source>
+		<class>tn.codeinc.persistance.AccessToken</class>
+		<class>tn.codeinc.persistance.AdArea</class>
+		<class>tn.codeinc.persistance.AdAreaPurchaseRequest</class>
+		<class>tn.codeinc.persistance.Address</class>
+		<class>tn.codeinc.persistance.Agency</class>
+		<class>tn.codeinc.persistance.Chalet</class>
+		<class>tn.codeinc.persistance.Coordinates</class>
+		<class>tn.codeinc.persistance.Course</class>
+		<class>tn.codeinc.persistance.CourseParticipation</class>
+		<class>tn.codeinc.persistance.CourseReview</class>
+		<class>tn.codeinc.persistance.Establishement</class>
+		<class>tn.codeinc.persistance.Event</class>
+		<class>tn.codeinc.persistance.JobApply</class>
+		<class>tn.codeinc.persistance.JobOffer</class>
+		<class>tn.codeinc.persistance.LevelTest</class>
+		<class>tn.codeinc.persistance.Lodging</class>
+		<class>tn.codeinc.persistance.Offer</class>
+		<class>tn.codeinc.persistance.OfferMessage</class>
+		<class>tn.codeinc.persistance.OfferRating</class>
+		<class>tn.codeinc.persistance.Question</class>
+		<class>tn.codeinc.persistance.QuestionChoice</class>
+		<class>tn.codeinc.persistance.RechargingCoupon</class>
+		<class>tn.codeinc.persistance.Reservation</class>
+		<class>tn.codeinc.persistance.Resort</class>
+		<class>tn.codeinc.persistance.ResortToken</class>
+		<class>tn.codeinc.persistance.User</class>
+		<properties>
+			<property name="hibernate.hbm2ddl.auto" value="update"/>
+		
+		</properties>
+	</persistence-unit>
+</persistence>
