@@ -13,7 +13,7 @@ public class Question {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	
+	//:private string
 	private String text;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
