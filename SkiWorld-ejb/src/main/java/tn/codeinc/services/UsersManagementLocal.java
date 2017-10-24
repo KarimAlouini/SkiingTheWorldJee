@@ -3,7 +3,6 @@ package tn.codeinc.services;
 import java.util.List;
 import javax.ejb.Local;
 import javax.ws.rs.core.UriInfo;
-
 import tn.codeinc.exceptions.AuthenticationException;
 import tn.codeinc.persistance.User;
 import tn.codeinc.persistance.User.UserRole;

@@ -65,7 +65,6 @@ public class UserService {
 	}
 
 	@POST
-
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(@FormParam("login") String login, @FormParam("password") String password) {
 
