@@ -1,22 +1,17 @@
 package tn.codeinc.persistance;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import javax.persistence.Table;
 @Entity
-public class Notification  implements Serializable{
+@Table(name="course_notification")
+public class CourseNotification  implements Serializable{
 	@Id
 	@GeneratedValue( strategy= GenerationType.AUTO )
 	private int id;
@@ -26,13 +21,13 @@ public class Notification  implements Serializable{
 	@OneToOne
 	private Courses course;
 	
-	public Notification() {
+	public CourseNotification() {
 		super();
 	}
 	
 	
 	
-	public Notification(int id, User user, String msg, Courses course) {
+	public CourseNotification(int id, User user, String msg, Courses course) {
 		super();
 		this.id = id;
 		this.user = user;

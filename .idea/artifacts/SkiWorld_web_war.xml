@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="SkiWorld-web:war">
+    <output-path>$PROJECT_DIR$/SkiWorld-web/target</output-path>
+    <root id="archive" name="SkiWorld-web.war">
+      <element id="artifact" artifact-name="SkiWorld-web:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -29,7 +29,7 @@ public class UserSecureService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAll() {
 		
-		if (currentUser.get().getRole() != UserRole.ROLE_SUPER_ADMIN) {
+		if (currentUser.get().getRole() != UserRole.ROLE_AGENT) {
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
 
