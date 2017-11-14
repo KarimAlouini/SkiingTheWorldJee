@@ -13,7 +13,6 @@ import org.joda.time.Interval;
 import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.exceptions.AdAreaRequestDuplicationException;
 import tn.codeinc.exceptions.AdAreaRequestException;
-import tn.codeinc.exceptions.AuthenticationException;
 import tn.codeinc.exceptions.AuthorizationException;
 import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.persistance.AdArea;
@@ -152,9 +151,20 @@ public class AdAreaManagement implements AdAreaManagementLocal, AdAreaManagement
 		AdAreaPurchaseRequest pr = getPurchaseRequest(req.getId());
 		if (pr == null)
 			throw new ElementNotFoundException();
-		pr.setConfirmation(AdAreaPurchaseRequestConfirmation.ACCEPTED);
+		pr.setConfirmation(AdAreaPurchaseRequestConfirmation.REJECTED);
 		em.merge(pr);
 		
+	}
+
+	@Override
+	public List<AdAreaPurchaseRequest> getByAdArea(Integer id) throws ElementNotFoundException {
+		AdArea a = get(id);
+		if (a == null)
+			throw new ElementNotFoundException();
+		
+		return em.createQuery("SELECT pr FROM AdAreaPurchaseRequest pr WHERE pr.adArea = :a",AdAreaPurchaseRequest.class)
+				.setParameter("a", a)
+				.getResultList();
 	}
 
 }

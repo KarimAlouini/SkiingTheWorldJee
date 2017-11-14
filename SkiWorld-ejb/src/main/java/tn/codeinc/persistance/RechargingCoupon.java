@@ -1,11 +1,12 @@
 package tn.codeinc.persistance;
 
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +19,9 @@ public class RechargingCoupon {
 	private Integer amount;
 	
 	private Date dateGenerated;
+	
+	@ManyToOne(targetEntity=Seller.class,fetch=FetchType.LAZY)
+	private Seller seller;
 	
 	private Boolean isUsed ;
 	@Column(name="code",unique=true)
@@ -67,10 +71,7 @@ public class RechargingCoupon {
 		this.code = code;
 	}
 
-	public RechargingCoupon(Integer amount) {
-		super();
-		this.amount = amount;
-	}
+	
 	
 	
 

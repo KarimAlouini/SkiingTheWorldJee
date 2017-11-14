@@ -3,10 +3,8 @@ package tn.codeinc.services;
 import java.util.List;
 
 import javax.ejb.Local;
-
 import tn.codeinc.exceptions.AdAreaRequestDuplicationException;
 import tn.codeinc.exceptions.AdAreaRequestException;
-import tn.codeinc.exceptions.AuthenticationException;
 import tn.codeinc.exceptions.AuthorizationException;
 import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.persistance.AdArea;
@@ -29,5 +27,6 @@ public interface AdAreaManagementLocal {
 	public AdAreaPurchaseRequest getPurchaseRequest(Integer id); 
 	public void acceptPurchaseRequest(AdAreaPurchaseRequest req) throws ElementNotFoundException;
 	public void refusePurchaseRequest(AdAreaPurchaseRequest req) throws ElementNotFoundException;
+	public List<AdAreaPurchaseRequest> getByAdArea(Integer id) throws ElementNotFoundException;
 
 }

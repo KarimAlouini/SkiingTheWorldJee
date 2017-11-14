@@ -1,11 +1,13 @@
 package  tn.codeinc.persistance;
 import javax.persistence.Entity;
 
-import tn.codeinc.persistance.*;
-
 @Entity
 public class Chalet extends Establishment {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5334574178287938633L;
 	private int nbrPers,prixNuit,nbrchambres,classification,nbrLit;
 	private String nomChalet;
 	
