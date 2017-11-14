@@ -1,6 +1,7 @@
 package tn.codeinc.security;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -8,6 +9,9 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.Provider;
+
+import org.joda.time.DateTime;
+
 import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.persistance.AccessToken;
 import tn.codeinc.services.TokenManagementLocal;
@@ -32,16 +36,16 @@ public class SecurityFilter implements ContainerRequestFilter {
 				String authToken = authHeader.get(0);
 				authToken = authToken.replaceFirst(AUTHORIZATION_HEADER_PREFIX, "");
 
-			
 				AccessToken token = tokens.get(authToken);
 				if (token != null) {
 
-					if (token.isValid()){
-						  currentUser.set(token.getUser());
-						
+					if (token.isValid()) {
+						token.setExpiresAt(new Date(new DateTime(token.getExpiresAt()).plusHours(1).getMillis()));
+						currentUser.set(token.getUser());
+
 						return;
 					}
-						
+
 					else {
 						Response unauthorizedStatus = Response.status(Status.UNAUTHORIZED)
 								.entity(new ResponseMessage(2, "Your session has expired , please login again"))

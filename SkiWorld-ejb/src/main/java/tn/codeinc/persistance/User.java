@@ -31,64 +31,58 @@ public class User implements Serializable {
 
 	private String password;
 	private UserRole role;
-	
+
 	@JsonIgnore
-	@OneToMany(targetEntity=Event.class,fetch=FetchType.EAGER)
+	@OneToMany(targetEntity = Event.class, fetch = FetchType.EAGER)
 	private List<Event> myEvents;
 	@JsonIgnore
 	@ManyToMany
 	private List<Event> myParticipation;
-	@OneToMany(mappedBy="user",fetch=FetchType.EAGER)
-	
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+
 	@JsonIgnore
-	
+
 	private List<TestLevel> levelTests;
-	@OneToMany(fetch=FetchType.EAGER,mappedBy="user")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	@JsonIgnore
 	private List<CourseReview> reviews;
-	@OneToMany(mappedBy="user",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<CourseParticipation> participations;
 	@JsonIgnore
-	@OneToMany(fetch=FetchType.EAGER,mappedBy="user")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private List<CourseNotification> lstNotif;
-	
-	
-	/*@OneToMany
-	private List<EventInvitation> eventInvitationsSender;
-	
-	@OneToMany (mappedBy ="Receiver")
-	private List<EventInvitation> eventInvitationsReceiver;
-	*/
-	@JsonIgnore
-	@OneToMany(targetEntity=AdAreaPurchaseRequest.class,mappedBy="user",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
-	private List<AdAreaPurchaseRequest> purchaseRequests;
-	
 
-	
-	
+	/*
+	 * @OneToMany private List<EventInvitation> eventInvitationsSender;
+	 * 
+	 * @OneToMany (mappedBy ="Receiver") private List<EventInvitation>
+	 * eventInvitationsReceiver;
+	 */
+	@JsonIgnore
+	@OneToMany(targetEntity = AdAreaPurchaseRequest.class, mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<AdAreaPurchaseRequest> purchaseRequests;
+
 	public enum UserRole {
-		ROLE_MODERATOR, ROLE_USER, ROLE_SUPER_ADMIN, ROLE_GUIDE,ROLE_AGENT
+		ROLE_MODERATOR, ROLE_USER, ROLE_SUPER_ADMIN, ROLE_GUIDE, ROLE_AGENT
 
 	}
 
 	@Embedded()
-	
+
 	private Address address;
 	@Column(columnDefinition = "int default 0")
 	private boolean isBanned;
-	
+
 	@Column(columnDefinition = "int default 0")
 	private boolean isConfirmed;
-	
+
 	private String confirmationCode;
-	
-	
 
 	public User() {
 
 	}
-	
+
 	public void setConfirmationCode(String cofirmationCode) {
 		this.confirmationCode = cofirmationCode;
 	}
@@ -105,10 +99,6 @@ public class User implements Serializable {
 		this.role = role;
 		this.address = address;
 	}
-	
-	
-	
-	
 
 	public User(Integer id, String login, String firstName, String lastName, String email, String phoneNumber,
 			String plainPassword, String password, UserRole role, List<Event> myEvents, List<Event> myParticipation,
@@ -248,8 +238,6 @@ public class User implements Serializable {
 		return isBanned;
 	}
 
-	
-
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -265,7 +253,6 @@ public class User implements Serializable {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
 
 	public String getPlainPassword() {
 		return plainPassword;
@@ -328,14 +315,13 @@ public class User implements Serializable {
 	public boolean isConfirmed() {
 		return isConfirmed;
 	}
-	
+
 	public void setConfirmed(boolean isConfirmed) {
 		this.isConfirmed = isConfirmed;
 	}
-	
+
 	public String getConfirmationCode() {
 		return confirmationCode;
 	}
-	
-	
+
 }
