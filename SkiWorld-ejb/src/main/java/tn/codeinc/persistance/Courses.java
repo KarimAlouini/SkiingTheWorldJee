@@ -41,7 +41,7 @@ public class Courses implements Serializable{
 	@ManyToOne(fetch=FetchType.EAGER,cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	private User guide;
 	@OneToOne
-	private Notification notification;
+	private CourseNotification notification;
 	
 	
 	@OneToMany(mappedBy="course",fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
@@ -59,7 +59,7 @@ public class Courses implements Serializable{
 	
 	
 	public Courses(int courseID, String courseName, CourseLevel courseLevel, Date date, Double price,
-			int maxParticipants, CourseState courseState, String location, User guide, Notification notification,
+			int maxParticipants, CourseState courseState, String location, User guide, CourseNotification notification,
 			List<CourseReview> reviews, List<CourseParticipation> participant) {
 		super();
 		this.courseID = courseID;
@@ -146,12 +146,12 @@ public class Courses implements Serializable{
 	}
 
 
-	public Notification getNotification() {
+	public CourseNotification getNotification() {
 		return notification;
 	}
 
 
-	public void setNotification(Notification notification) {
+	public void setNotification(CourseNotification notification) {
 		this.notification = notification;
 	}
 	

@@ -117,7 +117,7 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 	}
 
 	@Override
-	public String login(String login, String password) throws AuthenticationException {
+	public AccessToken login(String login, String password) throws AuthenticationException {
 		if (getByLogin(login) == null && getByMail(login) == null && getByPhoneNumber(login) == null) {
 			throw new AuthenticationException("Account not found !");
 		}
@@ -143,7 +143,7 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 						AccessToken t = tokens.getLastPerUser(u);
 
 						if (t != null && t.isValid())
-							return t.getValue();
+							return t;
 
 						else {
 							AccessToken newToken = new AccessToken();
@@ -152,7 +152,7 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 							tokens.add(newToken);
 							System.out.println(newToken.getValue());
 
-							return newToken.getValue();
+							return newToken;
 
 						}
 					}

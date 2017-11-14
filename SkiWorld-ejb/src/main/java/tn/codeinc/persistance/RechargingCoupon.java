@@ -1,28 +1,39 @@
 package tn.codeinc.persistance;
 
 import java.util.Date;
+import java.util.Random;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import tn.codeinc.util.JsonDateSerializer;
+
 @Entity
-@Table(name="recharging_coupon")
+@Table(name = "recharging_coupon")
 public class RechargingCoupon {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private Integer amount;
+
 	
-	private Date dateGenerated;
-	
-	private Boolean isUsed ;
-	@Column(name="code",unique=true)
+	@JsonSerialize(using=JsonDateSerializer.class)
+	private Date dateGenerated = new Date();
+
+	private Boolean isUsed = false;
+	@Column(name = "code", unique = true)
 	private String code;
-	
+
 	public RechargingCoupon() {
 		// TODO Auto-generated constructor stub
 	}
@@ -70,8 +81,9 @@ public class RechargingCoupon {
 	public RechargingCoupon(Integer amount) {
 		super();
 		this.amount = amount;
+		do {
+			this.code = String.valueOf(new Random().nextInt(999999999) + 100000000);
+		} while (this.code.length() != 9);
 	}
-	
-	
 
 }

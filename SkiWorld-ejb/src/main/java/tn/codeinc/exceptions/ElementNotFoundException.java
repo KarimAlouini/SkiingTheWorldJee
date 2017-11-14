@@ -6,4 +6,8 @@ public class ElementNotFoundException extends Exception{
 		super(message);
 	}
 
+	public ElementNotFoundException() {
+		// TODO Auto-generated constructor stub
+	}
+
 }

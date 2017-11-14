@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.UriInfo;
 import tn.codeinc.exceptions.AuthenticationException;
 import tn.codeinc.persistance.User;
 import tn.codeinc.services.UsersManagementLocal;
+import tn.codeinc.util.LoginResponse;
 import tn.codeinc.util.ResponseMessage;
 
 @Path("/users")
@@ -66,13 +68,14 @@ public class UserService {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response login(@FormParam("login") String login, @FormParam("password") String password) {
+	public Response login(@HeaderParam("login") String login, @HeaderParam("password") String password) {
 
+		
 		try {
-			return Response.ok().entity(new ResponseMessage(0, users.login(login, password))).build();
+			return Response.ok().entity(new LoginResponse(0, users.login(login, password))).build();
 
 		} catch (AuthenticationException e) {
-			return Response.ok().entity(new ResponseMessage(1, e.getMessage())).build();
+			return Response.ok().entity(new LoginResponse(1, e.getMessage())).build();
 		}
 
 	}

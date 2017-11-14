@@ -1,6 +1,8 @@
 package tn.codeinc.persistance;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.Embeddable;
 
 
@@ -14,6 +16,8 @@ public class AdAreaPurchaseRequestId  implements Serializable{
 	private Integer user;
 	
 	private Integer adArea;
+	
+	private Date starDate;
 	
 
 	@Override
@@ -60,14 +64,23 @@ public class AdAreaPurchaseRequestId  implements Serializable{
 	public void setUser(Integer user) {
 		this.user = user;
 	}
+	
+	public void setStarDate(Date starDate) {
+		this.starDate = starDate;
+	}
+	
+	public Date getStarDate() {
+		return starDate;
+	}
 	@Override
 	public String toString() {
 		return "AdAreaPurchaseRequestId [user=" + user + ", adArea=" + adArea + "]";
 	}
-	public AdAreaPurchaseRequestId(Integer user, Integer adArea) {
+	public AdAreaPurchaseRequestId(Integer user, Integer adArea,Date startDate) {
 		super();
 		this.user = user;
 		this.adArea = adArea;
+		this.starDate = startDate;
 	}
 	
 	

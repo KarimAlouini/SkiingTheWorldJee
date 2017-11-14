@@ -7,7 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import tn.codeinc.persistance.Notification;
+import tn.codeinc.persistance.CourseNotification;
 
 /**
  * Session Bean implementation class NotificationManagement
@@ -25,16 +25,16 @@ public class NotificationManagement implements NotificationManagementRemote {
     }
 
 	@Override
-	public void addNotif(Notification notif) {
+	public void addNotif(CourseNotification notif) {
 		// TODO Auto-generated method stub
 		em.persist(notif);
 		
 	}
 
 	@Override
-	public List<Notification> listAll() {
+	public List<CourseNotification> listAll() {
 		String requete = "SELECT n FROM Notification n";
-		return em.createQuery(requete,Notification.class).getResultList();
+		return em.createQuery(requete,CourseNotification.class).getResultList();
 	}
 
 }

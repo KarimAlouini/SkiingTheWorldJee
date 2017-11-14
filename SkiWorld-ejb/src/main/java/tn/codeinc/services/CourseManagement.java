@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 import tn.codeinc.persistance.CourseParticipation;
 import tn.codeinc.persistance.CourseState;
 import tn.codeinc.persistance.Courses;
-import tn.codeinc.persistance.Notification;
+import tn.codeinc.persistance.CourseNotification;
 import tn.codeinc.persistance.User;
 
 
@@ -25,7 +25,7 @@ public class CourseManagement implements CourseManagementRemote, CourseManagemen
 	List<CourseParticipation> lst;
 	List<User> user;
 	NotificationManagement notifM=new  NotificationManagement();
-	Notification notif= new Notification();
+	CourseNotification notif= new CourseNotification();
 	@Inject
 	UsersManagementLocal userM;
 	
@@ -173,9 +173,9 @@ public class CourseManagement implements CourseManagementRemote, CourseManagemen
 	}
 
 	@Override
-	public List<Notification> listNotif() {
+	public List<CourseNotification> listNotif() {
 			String requete = "SELECT n FROM Notification n";
-			return pc.getEM().createQuery(requete,Notification.class).getResultList();
+			return pc.getEM().createQuery(requete,CourseNotification.class).getResultList();
 		
 	}
 

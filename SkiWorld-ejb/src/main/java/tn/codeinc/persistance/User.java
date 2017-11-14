@@ -7,14 +7,16 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -22,7 +24,7 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String login, firstName, lastName, email, phoneNumber;
 
@@ -31,6 +33,7 @@ public class User implements Serializable {
 	private String plainPassword;
 
 	private String password;
+	@Enumerated(EnumType.STRING)
 	private UserRole role;
 	
 	@JsonIgnore
@@ -52,7 +55,7 @@ public class User implements Serializable {
 	private List<CourseParticipation> participations;
 	@JsonIgnore
 	@OneToMany(fetch=FetchType.EAGER,mappedBy="user")
-	private List<Notification> lstNotif;
+	private List<CourseNotification> lstNotif;
 	
 	
 	/*@OneToMany
@@ -69,7 +72,7 @@ public class User implements Serializable {
 	
 	
 	public enum UserRole {
-		ROLE_MODERATOR, ROLE_USER, ROLE_SUPER_ADMIN, ROLE_GUIDE
+		ROLE_MODERATOR, ROLE_USER, ROLE_SUPER_ADMIN, ROLE_GUIDE,ROLE_AGENT
 
 	}
 
@@ -114,7 +117,7 @@ public class User implements Serializable {
 	public User(Integer id, String login, String firstName, String lastName, String email, String phoneNumber,
 			String plainPassword, String password, UserRole role, List<Event> myEvents, List<Event> myParticipation,
 			List<TestLevel> levelTests, List<CourseReview> reviews, List<CourseParticipation> participations,
-			List<Notification> lstNotif, List<AdAreaPurchaseRequest> purchaseRequests, Address address,
+			List<CourseNotification> lstNotif, List<AdAreaPurchaseRequest> purchaseRequests, Address address,
 			boolean isBanned, boolean isConfirmed, String confirmationCode) {
 		super();
 		this.id = id;
@@ -300,11 +303,11 @@ public class User implements Serializable {
 		this.participations = participations;
 	}
 
-	public List<Notification> getLstNotif() {
+	public List<CourseNotification> getLstNotif() {
 		return lstNotif;
 	}
 
-	public void setLstNotif(List<Notification> lstNotif) {
+	public void setLstNotif(List<CourseNotification> lstNotif) {
 		this.lstNotif = lstNotif;
 	}
 

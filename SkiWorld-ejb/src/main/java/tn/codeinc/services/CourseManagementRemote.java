@@ -8,7 +8,7 @@ import javax.ejb.Remote;
 
 import tn.codeinc.persistance.CourseParticipation;
 import tn.codeinc.persistance.Courses;
-import tn.codeinc.persistance.Notification;
+import tn.codeinc.persistance.CourseNotification;
 
 @Remote
 public interface CourseManagementRemote {
@@ -22,6 +22,6 @@ public interface CourseManagementRemote {
 	public List<Courses> findCourseByState(String state);
 	public List<Courses> listAllCourse();
 	public List Stat();
-	public List<Notification> listNotif();
+	public List<CourseNotification> listNotif();
 	public void addP(CourseParticipation p);
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.ws.rs.core.UriInfo;
 import tn.codeinc.exceptions.AuthenticationException;
+import tn.codeinc.persistance.AccessToken;
 import tn.codeinc.persistance.User;
 import tn.codeinc.persistance.User.UserRole;
 
@@ -21,7 +22,7 @@ public interface UsersManagementLocal {
 	public List<User> getByRole(UserRole role);
 	public List<User> getBanned();
 	public List<User> getActive();
-	public String login(String login,String password) throws AuthenticationException ;
+	public AccessToken login(String login,String password) throws AuthenticationException ;
 	public void signUp(User user,UriInfo uriInfo) throws AuthenticationException;
 	public void confirm(String code) throws AuthenticationException;
 	
