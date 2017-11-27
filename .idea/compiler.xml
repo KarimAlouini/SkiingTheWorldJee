@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="SkiWorld-client" />
+        <module name="SkiWorld-ear" />
+        <module name="SkiWorld-ejb" />
+        <module name="SkiWorld-web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="SkiWorld" target="1.8" />
+      <module name="SkiWorld-client" target="1.8" />
+      <module name="SkiWorld-ear" target="1.8" />
+      <module name="SkiWorld-ejb" target="1.8" />
+      <module name="SkiWorld-web" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

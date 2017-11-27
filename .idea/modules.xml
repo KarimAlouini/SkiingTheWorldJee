@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/SkiWorld.iml" filepath="$PROJECT_DIR$/SkiWorld.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SkiWorld-client/SkiWorld-client.iml" filepath="$PROJECT_DIR$/SkiWorld-client/SkiWorld-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SkiWorld-ear/SkiWorld-ear.iml" filepath="$PROJECT_DIR$/SkiWorld-ear/SkiWorld-ear.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SkiWorld-ejb/SkiWorld-ejb.iml" filepath="$PROJECT_DIR$/SkiWorld-ejb/SkiWorld-ejb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SkiWorld-web/SkiWorld-web.iml" filepath="$PROJECT_DIR$/SkiWorld-web/SkiWorld-web.iml" />
+    </modules>
+  </component>
+</project>

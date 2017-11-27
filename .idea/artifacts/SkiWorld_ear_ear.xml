@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="ear" name="SkiWorld-ear:ear">
+    <output-path>$PROJECT_DIR$/SkiWorld-ear/target</output-path>
+    <root id="archive" name="SkiWorld-ear.ear">
+      <element id="artifact" artifact-name="SkiWorld-ear:ear exploded" />
+    </root>
+  </artifact>
+</component>
