@@ -5,9 +5,11 @@ import java.util.Random;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -27,11 +29,10 @@ public class RechargingCoupon {
 	private Integer amount;
 
 	
-	@JsonSerialize(using=JsonDateSerializer.class)
-	private Date dateGenerated = new Date();
-
-	private Boolean isUsed = false;
-	@Column(name = "code", unique = true)
+	private Date dateGenerated;
+	
+	private Boolean isUsed ;
+	@Column(name="code",unique=true)
 	private String code;
 
 	public RechargingCoupon() {
@@ -81,9 +82,8 @@ public class RechargingCoupon {
 	public RechargingCoupon(Integer amount) {
 		super();
 		this.amount = amount;
-		do {
-			this.code = String.valueOf(new Random().nextInt(999999999) + 100000000);
-		} while (this.code.length() != 9);
 	}
+	
+	
 
 }

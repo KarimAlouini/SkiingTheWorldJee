@@ -15,6 +15,8 @@ import tn.codeinc.exceptions.AdAreaRequestDuplicationException;
 import tn.codeinc.exceptions.AdAreaRequestException;
 import tn.codeinc.exceptions.AuthenticationException;
 import tn.codeinc.exceptions.AuthorizationException;
+import tn.codeinc.exceptions.AdAreaRequestException;
+import tn.codeinc.exceptions.AuthorizationException;
 import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.persistance.AdArea;
 import tn.codeinc.persistance.AdAreaPurchaseRequest;
@@ -146,15 +148,10 @@ public class AdAreaManagement implements AdAreaManagementLocal, AdAreaManagement
 	}
 
 	@Override
-	public void refusePurchaseRequest(AdAreaPurchaseRequest req) throws ElementNotFoundException {
-		
-		
-		AdAreaPurchaseRequest pr = getPurchaseRequest(req.getId());
-		if (pr == null)
-			throw new ElementNotFoundException();
-		pr.setConfirmation(AdAreaPurchaseRequestConfirmation.ACCEPTED);
-		em.merge(pr);
-		
+	public void deletePurchaseRequest(AdAreaPurchaseRequest pr, AdArea a) {
+		a.getPurchaseRequests().remove(pr);
+		em.merge(a);
+
 	}
 
 }

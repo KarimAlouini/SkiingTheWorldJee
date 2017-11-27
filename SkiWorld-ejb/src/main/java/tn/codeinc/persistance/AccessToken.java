@@ -4,7 +4,6 @@ import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;

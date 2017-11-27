@@ -1,53 +1,93 @@
 package tn.codeinc.persistance;
 
-import java.util.Date;
+import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-public class Lodging extends Offer{
+
+public class Lodging extends Offer  implements Serializable{
 	
-	private Date startDate,endDate;
-	public Lodging(Integer id, String label, String description, Double price, Integer quantity, 
-			Date startDate, Date endDate) {
-		super(id, label, description, price, quantity);
-		;
-		this.startDate = startDate;
-		this.endDate = endDate;
-	}
-	
+	private String typ;
+	@Temporal(TemporalType.DATE)
+	private java.util.Date startDate;
+	@Temporal(TemporalType.DATE)
+	private java.util.Date endDate;
+	private String etat;
 	
 	public Lodging() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
-	public enum LogdingType {
-		SUITE,ROOM
+	public Lodging( String label, String description, Double price, Integer quantity, String typ
+		,java.util.Date startDate, java.util.Date endDate, String etat) {
+		super( label, description, price, quantity);
+		
+        this.typ = typ;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.etat =etat;
 	}
-
-
 	
 
+	public Lodging(int id, String label, String description, Double price, Integer quantity, String typ
+			,java.util.Date startDate, java.util.Date endDate, String etat) {
+			super( id, label, description, price, quantity);
+			
+			this.typ = typ;
+			this.startDate = startDate;
+			this.endDate = endDate;
+			this.etat =etat;
+		}
+	public Lodging(int id,String typ, java.util.Date startDate, java.util.Date endDate, String etat) {
+			super( id);
+			
+			this.typ = typ;
+			this.startDate = startDate;
+			this.endDate = endDate;
+			this.etat =etat;
+		}
 
-	public Date getStartDate() {
+	public String getTyp() {
+		return typ;
+	}
+
+	public void setTyp(String typ) {
+		this.typ = typ;
+	}
+	
+	public java.util.Date getStartDate() {
 		return startDate;
 	}
 
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(java.util.Date startDate) {
 		this.startDate = startDate;
 	}
 
 
-	public Date getEndDate() {
+	public java.util.Date getEndDate() {
 		return endDate;
 	}
 
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(java.util.Date endDate) {
 		this.endDate = endDate;
 	}
 	
-	
+
+	public String getEtat() {
+		return etat;
+	}
+
+
+	public void setEtat(String etat) {
+		this.etat = etat;
+	}
 	
 
+	
+
+	
 }

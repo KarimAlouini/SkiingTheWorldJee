@@ -1,5 +1,6 @@
 package tn.codeinc.persistance;
 
+import java.io.Serializable;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -11,21 +12,21 @@ import javax.persistence.InheritanceType;
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(
-		name="type",
-		discriminatorType=DiscriminatorType.STRING)
-public  class Offer {
+@DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)
+public class Offer  implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	protected Integer id;
-	protected String label,description;
+	protected int id;
+	protected String label;
+	protected String description;
 	protected Double price;
 	protected Integer quantity;
+
 	
 	public Offer() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
-	public Offer(Integer id, String label, String description, Double price, Integer quantity) {
+	public Offer(int id, String label, String description, Double price, Integer quantity) {
 		super();
 		this.id = id;
 		this.label = label;
@@ -33,10 +34,23 @@ public  class Offer {
 		this.price = price;
 		this.quantity = quantity;
 	}
-	public Integer getId() {
+	public Offer(String label, String description, Double price, Integer quantity) {
+		super();
+		this.label = label;
+		this.description = description;
+		this.price = price;
+		this.quantity = quantity;
+	}
+	
+	public Offer(int id) {
+	super();
+		this.id = id;	
+	}
+	
+	public int getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getLabel() {
@@ -63,5 +77,6 @@ public  class Offer {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
+	
 	
 }
