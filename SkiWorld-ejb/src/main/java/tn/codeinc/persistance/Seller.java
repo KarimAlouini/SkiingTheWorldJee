@@ -16,8 +16,7 @@ public class Seller implements Serializable{
 	private Integer id;
 	private String name,email,phoneNumber;
 	private Coordinates coordinates;
-	@OneToMany(mappedBy="seller")
-	private List<RechargingCoupon> coupons;
+	
 	
 	public Seller(String name, String email, String phoneNumber, Coordinates coordinates) {
 		super();
@@ -59,14 +58,6 @@ public class Seller implements Serializable{
 	
 	public Seller() {
 		// TODO Auto-generated constructor stub
-	}
-	
-	public List<RechargingCoupon> getCoupons() {
-		return coupons;
-	}
-	
-	public void setCoupons(List<RechargingCoupon> coupons) {
-		this.coupons = coupons;
 	}
 	
 

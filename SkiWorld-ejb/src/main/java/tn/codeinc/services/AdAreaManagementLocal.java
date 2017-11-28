@@ -3,10 +3,9 @@ package tn.codeinc.services;
 import java.util.List;
 
 import javax.ejb.Local;
+import javax.persistence.NoResultException;
+
 import tn.codeinc.exceptions.AdAreaRequestDuplicationException;
-import tn.codeinc.exceptions.AdAreaRequestException;
-import tn.codeinc.exceptions.AuthenticationException;
-import tn.codeinc.exceptions.AuthorizationException;
 import tn.codeinc.exceptions.AdAreaRequestException;
 import tn.codeinc.exceptions.AuthorizationException;
 import tn.codeinc.exceptions.ElementNotFoundException;
@@ -24,5 +23,12 @@ public interface AdAreaManagementLocal {
 	public void insert(AdArea a);
 	public void addPurchaseRequest(AdAreaPurchaseRequest pr) throws ElementNotFoundException, AdAreaRequestDuplicationException;
 	public void deletePurchaseRequest(AdAreaPurchaseRequest pr,AdArea a);
+	public List<AdAreaPurchaseRequest> getPurchasesRequests(AdArea adArea) throws ElementNotFoundException;
+	public List<AdAreaPurchaseRequest> getPurchaseRequestByType(AdArea adArea, AdAreaPurchaseRequestConfirmation conf)
+			throws ElementNotFoundException;
+	public List<AdAreaPurchaseRequest> getConnectedUserPurchaseRequest();
+	public AdAreaPurchaseRequest getPurchaseRequest(Integer id) throws NoResultException;
+	public void deletePurchaseRequest(AdAreaPurchaseRequest pr) throws ElementNotFoundException,AuthorizationException, AdAreaRequestException;
+	public void acceptPurchaseRequest(AdAreaPurchaseRequest req) throws ElementNotFoundException;
 
 }

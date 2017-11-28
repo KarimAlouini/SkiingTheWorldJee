@@ -1,5 +1,6 @@
 package tn.codeinc.webservices;
 
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -8,17 +9,19 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.client.CurrentUserRemote;
 import tn.codeinc.persistance.User.UserRole;
+import tn.codeinc.services.CouponManagementLocal;
 import tn.codeinc.services.CouponManagementRemote;
 
 @Path("/secure/coupons")
 public class CouponsSecureService {
-	@Inject
-	CouponManagementRemote coupons;
+	@EJB
+	CouponManagementLocal coupons;
 	
-	@Inject
-	CurrentUserRemote currentUser;
+	@EJB
+	CurrentUserLocal currentUser;
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)

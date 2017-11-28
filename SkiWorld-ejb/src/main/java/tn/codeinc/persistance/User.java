@@ -35,7 +35,7 @@ public class User implements Serializable {
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
-
+	private Double balance;
 	@JsonIgnore
 	@OneToMany(targetEntity = Event.class, fetch = FetchType.EAGER)
 	private List<Event> myEvents;
@@ -63,8 +63,7 @@ public class User implements Serializable {
 	 * @OneToMany (mappedBy ="Receiver") private List<EventInvitation>
 	 * eventInvitationsReceiver;
 	 */
-	@OneToMany(fetch=FetchType.EAGER,mappedBy="user")
-	private List<CourseNotification> lstNotif;
+	
 	
 	
 	/*@OneToMany
@@ -336,6 +335,14 @@ public class User implements Serializable {
 
 	public String getConfirmationCode() {
 		return confirmationCode;
+	}
+	
+	public Double getBalance() {
+		return balance;
+	}
+	
+	public void setBalance(Double balance) {
+		this.balance = balance;
 	}
 
 }
