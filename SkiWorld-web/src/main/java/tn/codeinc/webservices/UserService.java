@@ -1,5 +1,6 @@
 package tn.codeinc.webservices;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -16,7 +17,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import tn.codeinc.exceptions.AuthenticationException;
+import tn.codeinc.exceptions.TokenNotExistantException;
+import tn.codeinc.persistance.AccessToken;
 import tn.codeinc.persistance.User;
+import tn.codeinc.services.TokenManagementLocal;
 import tn.codeinc.services.UsersManagementLocal;
 import tn.codeinc.util.LoginResponse;
 import tn.codeinc.util.ResponseMessage;
@@ -29,6 +33,9 @@ public class UserService {
 
 	@Inject
 	private UsersManagementLocal users;
+	
+	@EJB
+	private TokenManagementLocal tokens;
 
 	/**
 	 * 
@@ -69,6 +76,8 @@ public class UserService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(@HeaderParam("login") String login, @HeaderParam("password") String password) {
+		System.out.println("UserService.login() "+login);
+		System.out.println("UserService.login() "+password);
 
 		
 		try {
@@ -78,6 +87,20 @@ public class UserService {
 			return Response.ok().entity(new LoginResponse(1, e.getMessage())).build();
 		}
 
+	}
+	
+	@POST
+	@Path("/refreshToken")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response refresh(@HeaderParam("token") String token){
+		try {
+			;
+			return Response.ok().entity(new LoginResponse(0, tokens.refresh(token))).build();
+		} catch (TokenNotExistantException e) {
+			e.printStackTrace();
+			return Response.ok().entity(new LoginResponse(1,e.getMessage())).build();
+			
+		}
 	}
 	
 	

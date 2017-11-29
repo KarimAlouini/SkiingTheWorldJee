@@ -77,7 +77,7 @@ public class User implements Serializable {
 	private List<AdAreaPurchaseRequest> purchaseRequests;
 
 	public enum UserRole {
-		ROLE_MODERATOR, ROLE_USER, ROLE_SUPER_ADMIN, ROLE_GUIDE
+		ROLE_MODERATOR, ROLE_USER, ROLE_SUPER_ADMIN, ROLE_GUIDE, ROLE_AGENT
 
 	}
 

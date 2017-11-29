@@ -9,6 +9,7 @@ import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import tn.codeinc.exceptions.TokenNotExistantException;
 import tn.codeinc.persistance.AccessToken;
 import tn.codeinc.persistance.User;
 
@@ -56,6 +57,29 @@ public class TokenManagement implements TokenManagementLocal, TokenManagementRem
 		}
 		catch(NoResultException e){
 			return null;
+		}
+	}
+
+	@Override
+	public AccessToken refresh(String value)throws TokenNotExistantException {
+		AccessToken token = get(value);
+		if (token == null){
+			throw new TokenNotExistantException("No access token for given value");
+		}
+		
+		else{
+			if (!token.isValid())
+			{
+				AccessToken newToken = new AccessToken();
+				newToken.generate();
+				newToken.setUser(token.getUser());
+				add(newToken);
+				
+				return newToken;
+			}
+			else{
+				return getLastPerUser(token.getUser());
+			}
 		}
 	}
 

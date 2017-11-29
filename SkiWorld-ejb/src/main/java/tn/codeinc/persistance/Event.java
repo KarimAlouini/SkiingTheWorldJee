@@ -39,13 +39,13 @@ public class Event {
 	@JoinColumn(name="user",nullable=false)
 	private User host;
 	
-	@OneToMany(mappedBy="event")
+	@OneToMany(mappedBy="event",fetch=FetchType.EAGER)
 	private List<EventInvitation> eventInvitations;
 	
 	@JsonIgnore
 	@OneToMany(targetEntity=KeyWord.class, fetch=FetchType.EAGER)
 	private List<KeyWord> keyword;
-	
+	@JsonIgnore
 	@ManyToMany
 	private List<User> users;
 	
