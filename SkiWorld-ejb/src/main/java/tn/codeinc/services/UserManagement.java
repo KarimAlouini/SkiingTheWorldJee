@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.ws.rs.core.UriInfo;
 import tn.codeinc.exceptions.AuthenticationException;
+import tn.codeinc.exceptions.UserException;
 import tn.codeinc.persistance.AccessToken;
 import tn.codeinc.persistance.User;
 import tn.codeinc.persistance.User.UserRole;
@@ -169,7 +170,7 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 	}
 
 	@Override
-	public void signUp(User user, UriInfo uriInfo) throws AuthenticationException {
+	public void signUp(User user) throws AuthenticationException {
 
 		if (getByLogin(user.getLogin()) != null) {
 			throw new AuthenticationException("A user with this username is already registered");
@@ -185,7 +186,7 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 		else {
 
 			try {
-				mailSender.sendConfirmation(user, uriInfo);
+				mailSender.sendConfirmation(user);
 			} catch (RuntimeException e) {
 				e.printStackTrace();
 				user.setConfirmed(true);
@@ -199,15 +200,27 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 	@Override
 	public void confirm(String code) throws AuthenticationException {
 		User user =getByConfirmationCode(code);
+		System.out.println("UserManagement.confirm() "+user);
 		if (user != null) {
 			if(user.isConfirmed())
 			user.setConfirmed(true);
-			user.setConfirmationCode(null);
+			//user.setConfirmationCode(null);
 			update(user);
-			// CC
+			
 			
 		} else {
 			throw new AuthenticationException("The registration link is invalid");
+		}
+		
+	}
+
+	@Override
+	public void resendConfirmation(String email) throws UserException {
+		User u = getByMail(email);
+		if (u == null)
+			throw new UserException("No account related to this email");
+		else{
+			mailSender.resendConfirmation(u);
 		}
 		
 	}

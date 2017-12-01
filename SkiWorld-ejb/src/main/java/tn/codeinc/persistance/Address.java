@@ -11,8 +11,7 @@ public class Address implements Serializable{
 
 	private String street,city,country;
 	
-	@Embedded
-	private Coordinates coordinates;
+	
 	private Integer zipCode;
 	
 	public Address(){

@@ -2,8 +2,8 @@ package tn.codeinc.services;
 
 import java.util.List;
 import javax.ejb.Local;
-import javax.ws.rs.core.UriInfo;
 import tn.codeinc.exceptions.AuthenticationException;
+import tn.codeinc.exceptions.UserException;
 import tn.codeinc.persistance.AccessToken;
 import tn.codeinc.persistance.User;
 import tn.codeinc.persistance.User.UserRole;
@@ -23,7 +23,8 @@ public interface UsersManagementLocal {
 	public List<User> getBanned();
 	public List<User> getActive();
 	public AccessToken login(String login,String password) throws AuthenticationException ;
-	public void signUp(User user,UriInfo uriInfo) throws AuthenticationException;
+	public void signUp(User user) throws AuthenticationException;
 	public void confirm(String code) throws AuthenticationException;
+	public void resendConfirmation(String email) throws UserException;
 	
 }

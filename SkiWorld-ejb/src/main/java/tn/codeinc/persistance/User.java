@@ -15,8 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -29,8 +27,7 @@ public class User implements Serializable {
 	private String login, firstName, lastName, email, phoneNumber;
 
 	@JsonIgnore
-	@Transient
-	private String plainPassword;
+	
 
 	private String password;
 	@Enumerated(EnumType.STRING)
@@ -113,33 +110,7 @@ public class User implements Serializable {
 		this.address = address;
 	}
 
-	public User(Integer id, String login, String firstName, String lastName, String email, String phoneNumber,
-			String plainPassword, String password, UserRole role, List<Event> myEvents, List<Event> myParticipation,
-			List<TestLevel> levelTests, List<CourseReview> reviews, List<CourseParticipation> participations,
-			List<CourseNotification> lstNotif, List<AdAreaPurchaseRequest> purchaseRequests, Address address,
-			boolean isBanned, boolean isConfirmed, String confirmationCode) {
-		super();
-		this.id = id;
-		this.login = login;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.phoneNumber = phoneNumber;
-		this.plainPassword = plainPassword;
-		this.password = password;
-		this.role = role;
-		this.myEvents = myEvents;
-		this.myParticipation = myParticipation;
-		this.levelTests = levelTests;
-		this.reviews = reviews;
-		this.participations = participations;
-		this.lstNotif = lstNotif;
-		this.purchaseRequests = purchaseRequests;
-		this.address = address;
-		this.isBanned = isBanned;
-		this.isConfirmed = isConfirmed;
-		this.confirmationCode = confirmationCode;
-	}
+	
 
 	public List<Event> getMyParticipation() {
 		return myParticipation;
@@ -267,13 +238,7 @@ public class User implements Serializable {
 		this.address = address;
 	}
 
-	public String getPlainPassword() {
-		return plainPassword;
-	}
-
-	public void setPlainPassword(String plainPassword) {
-		this.plainPassword = plainPassword;
-	}
+	
 
 	public List<TestLevel> getLevelTests() {
 		return levelTests;

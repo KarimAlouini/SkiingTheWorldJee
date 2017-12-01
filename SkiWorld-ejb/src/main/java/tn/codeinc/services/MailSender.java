@@ -22,6 +22,7 @@ import org.jtwig.JtwigModel;
 import org.jtwig.JtwigTemplate;
 
 import tn.codeinc.persistance.User;
+import tn.codeinc.util.ConfirmationCode;
 
 @Stateless
 public class MailSender implements MailSenderLocal, MailSenderRemote {
@@ -69,17 +70,30 @@ public class MailSender implements MailSenderLocal, MailSenderRemote {
 	}
 
 	@Override
-	public void sendConfirmation(User u,UriInfo uri) {
+	public void sendConfirmation(User u) {
+		
 		u.setConfirmationCode(
-				Base64.getEncoder().encodeToString((u.getLogin() + new Date().getTime()).getBytes()));
+				ConfirmationCode.generate());
 		JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/confirmation_mail.twig");
 		JtwigModel model = JtwigModel.newModel();
 		model.with("username", u.getFirstName());
-		model.with("confirmationLink", uri.getAbsolutePath() + "confirm/" + u.getConfirmationCode());
+		model.with("confirmationLink","http://localhost:4200/confirm/" + u.getConfirmationCode());
 
 		
 		send(u.getEmail(), "Skiing the world confirmation", template.render(model));
 
+	}
+
+	@Override
+	public void resendConfirmation(User u) {
+		u.setConfirmationCode(ConfirmationCode.generate());
+		JtwigTemplate template = JtwigTemplate.classpathTemplate("templates/reconfirmation_email.html.twig");
+		JtwigModel model = JtwigModel.newModel();
+		model.with("username", u.getFirstName());
+		model.with("confirmationLink","http://localhost:4200/confirm/" + u.getConfirmationCode());
+		send(u.getEmail(), "Skiing the world confirmation", template.render(model));
+		
+		
 	}
 
 }

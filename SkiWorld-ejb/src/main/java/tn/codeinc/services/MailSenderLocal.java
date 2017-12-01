@@ -6,6 +6,7 @@ import tn.codeinc.persistance.User;
 
 public interface MailSenderLocal {
 	public void send(String to,String subject,String message);
-	public void sendConfirmation(User u,UriInfo inf);
+	public void sendConfirmation(User u);
+	public void resendConfirmation(User u) ;
 
 }
