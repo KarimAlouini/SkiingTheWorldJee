@@ -1,8 +1,13 @@
 package tn.codeinc.persistance;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * Entity implementation class for Entity: JobOffer
@@ -13,16 +18,28 @@ import javax.persistence.*;
 
 public class JobOffer implements Serializable {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private Integer numberOfPlaces;
 	private Integer validity;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date startDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date endDate;
 	private Double salary;
 	private String description;
-	@ManyToOne(fetch=FetchType.EAGER)
-	private Agency agency;
+	private String name;
+	private boolean isArchived ;
+	
+	
+	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.DETACH)
+	private User agent;
+	
+	@OneToMany(mappedBy = "offer",cascade=CascadeType.REMOVE)
+	private List<JobApply> applicationsByClients;
+	
+	@OneToMany(mappedBy = "jobOffer")
+	private List<OfferMessage> offerMessagesOnThisOffer;
 	
 	
 	
@@ -55,8 +72,10 @@ public class JobOffer implements Serializable {
 		return true;
 	}
 
+	
+
 	public JobOffer(Integer numberOfPlaces, Integer validity, Date startDate, Date endDate, Double salary,
-			String description, Agency agency) {
+			String description, String name, User agent,boolean isArchived) {
 		super();
 		this.numberOfPlaces = numberOfPlaces;
 		this.validity = validity;
@@ -64,8 +83,15 @@ public class JobOffer implements Serializable {
 		this.endDate = endDate;
 		this.salary = salary;
 		this.description = description;
-		this.agency = agency;
+		this.name = name;
+		this.agent = agent;
+		this.applicationsByClients = new ArrayList<JobApply>();
+		this.offerMessagesOnThisOffer = new ArrayList<OfferMessage>();
+		this.isArchived= isArchived;
 	}
+
+	
+
 
 	private static final long serialVersionUID = 1L;
 
@@ -129,19 +155,37 @@ public class JobOffer implements Serializable {
 		this.description = description;
 	}
 
-	public Agency getAgency() {
-		return agency;
+	
+
+	public User getAgent() {
+		return agent;
 	}
 
-	public void setAgency(Agency agency) {
-		this.agency = agency;
+	public void setAgent(User agent) {
+		this.agent = agent;
 	}
 
 	@Override
 	public String toString() {
 		return "JobOffer [id=" + id + ", numberOfPlaces=" + numberOfPlaces + ", validity=" + validity + ", startDate="
 				+ startDate + ", endDate=" + endDate + ", salary=" + salary + ", description=" + description
-				+ ", agency=" + agency + "]";
+				+ ", agent=" + agent + "]";
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public boolean isArchived() {
+		return isArchived;
+	}
+
+	public void setArchived(boolean isArchived) {
+		this.isArchived = isArchived;
 	}
    
 	

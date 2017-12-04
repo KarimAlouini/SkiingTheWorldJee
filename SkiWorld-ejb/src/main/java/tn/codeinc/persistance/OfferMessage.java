@@ -1,110 +1,98 @@
 package tn.codeinc.persistance;
 
-import java.util.Date;
+import java.io.Serializable;
+
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
-public class OfferMessage {
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer id;
 
-	@Temporal(TemporalType.DATE)
-	private java.util.Date date;
+//new
+public class OfferMessage implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@EmbeddedId
+	private OfferMessageId id;
+	private String objet ; 
+	private String message ;
 	
-	@ManyToOne(fetch=FetchType.EAGER,targetEntity=User.class)
-	private User user;
-
-
-	@ManyToOne(fetch=FetchType.EAGER,targetEntity=Offer.class)
-	private Offer offer;
-	private String mContent;
-
-	public Integer getId() {
-		return id;
-	}
-
-
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-
-	public Date getDate() {
-		return date;
-	}
-
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-
-
-	public Offer getOffer() {
-		return offer;
-	}
-
-	public void setOffer(Offer offer) {
-		this.offer = offer;
-	}
-
-
-
-
-
-
-	public String getmContent() {
-		return mContent;
-	}
-
-
-
-	public void setmContent(String mContent) {
-		this.mContent = mContent;
-	}
-
+	
+	@ManyToOne
+	@JoinColumn(name = "idClient", referencedColumnName = "id", updatable = false, insertable = false)
+	private User client;
+	
+	@ManyToOne
+	@JoinColumn(name = "idAgent", referencedColumnName = "id", updatable = false, insertable = false)
+	private User agent;
+	
+	@ManyToOne
+	@JoinColumn(name = "idOffer", referencedColumnName = "id", updatable = false, insertable = false)
+	private JobOffer jobOffer;
+	
+	
 
 	public OfferMessage() {
 		super();
-
+		// TODO Auto-generated constructor stub
 	}
 
-
-	public OfferMessage(Integer id, Date date,User user ,Offer offer, String mContent) {
+	public OfferMessage(String objet, String message, User client, User agent, JobOffer jobOffer) {
 		super();
-		this.id = id;
-		this.date = date;
-        this.user = user;
-		this.offer = offer;
-		this.mContent = mContent;
+		this.objet = objet;
+		this.message = message;
+		this.client = client;
+		this.agent = agent;
+		this.id = new OfferMessageId(client.getId(),agent.getId(), jobOffer.getId());
 	}
 
-	public OfferMessage(Integer id, Date date, String mContent) {
-		super();
-		this.id = id;
-		this.date = date;
-
-		this.mContent = mContent;
+	public OfferMessageId getId() {
+		return id;
 	}
 
+	public void setId(OfferMessageId id) {
+		this.id = id;
+	}
 
+	public String getObjet() {
+		return objet;
+	}
+
+	public void setObjet(String objet) {
+		this.objet = objet;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public User getClient() {
+		return client;
+	}
+
+	public void setClient(User client) {
+		this.client = client;
+	}
+
+	public User getAgent() {
+		return agent;
+	}
+
+	public void setAgent(User agent) {
+		this.agent = agent;
+	}
+
+	
+	
+	
+
+	
 }

@@ -1,10 +1,14 @@
 package tn.codeinc.services;
 
 import java.util.List;
+
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import javax.ws.rs.core.UriInfo;
+
+import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.exceptions.AuthenticationException;
 import tn.codeinc.exceptions.UserException;
 import tn.codeinc.persistance.AccessToken;
@@ -24,6 +28,9 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 	private MailSenderLocal mailSender;
 	@Inject
 	PersistanceContextLocal pc;
+	
+	@EJB
+	CurrentUserLocal cu;
 
 	public UserManagement() {
 		// TODO Auto-generated constructor stub
@@ -141,6 +148,9 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 						throw new AuthenticationException("You have been banned !");
 
 					} else {
+						
+						cu.set(u);
+						
 						AccessToken t = tokens.getLastPerUser(u);
 
 						if (t != null && t.isValid())
