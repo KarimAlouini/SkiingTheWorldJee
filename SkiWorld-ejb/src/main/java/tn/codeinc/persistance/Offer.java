@@ -21,7 +21,6 @@ public class Offer  implements Serializable{
 	protected String description;
 	protected Double price;
 	protected Integer quantity;
-
 	
 	public Offer() {
 		super();
@@ -77,6 +76,8 @@ public class Offer  implements Serializable{
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
+	
+	
 	
 	
 }

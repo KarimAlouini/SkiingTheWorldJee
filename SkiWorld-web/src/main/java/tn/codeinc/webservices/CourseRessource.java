@@ -13,7 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import tn.codeinc.persistance.Courses;
+import tn.codeinc.persistance.Course;
 import tn.codeinc.services.CourseManagement;
 import tn.codeinc.services.NotificationManagement;
 
@@ -29,7 +29,7 @@ public class CourseRessource {
 	@POST
 	@Path("/addCourse")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createCourse(Courses course) {
+	public Response createCourse(Course course) {
 		courseM.addCourse(course);
 		
 		return Response.status(200).build();
@@ -38,37 +38,37 @@ public class CourseRessource {
 	@GET
 	@Path("/getAllCourses")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Courses> GetAllCourses() {
+	public List<Course> GetAllCourses() {
 		return courseM.listAllCourse();
 	}
 	@GET
 	@Path("/getCourseByLocation/{location}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Courses> GetCourseByLocation(@PathParam(value = "location") String location) {
+	public List<Course> GetCourseByLocation(@PathParam(value = "location") String location) {
 		return courseM.findCourseByLocation(location);
 	}
 	@GET
 	@Path("/getCourseByLevel/{level}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Courses> GetCourseByLevel(@PathParam(value = "level") String level) {
+	public List<Course> GetCourseByLevel(@PathParam(value = "level") String level) {
 		return courseM.findCourseByLevel(level);
 	}
 	@GET
 	@Path("/getCourseById/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Courses GetCourseById(@PathParam(value = "id") int id) {
+	public Course GetCourseById(@PathParam(value = "id") int id) {
 		return courseM.findCourseByID(id);
 	}
 	@GET
 	@Path("/getCourseByState/{state}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Courses> GetCourseByState(@PathParam(value = "state") String state) {
+	public List<Course> GetCourseByState(@PathParam(value = "state") String state) {
 		return courseM.findCourseByState(state);
 	}
 	@GET
 	@Path("/getCourseByDate/{date}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Courses> GetCourseByDate(@PathParam(value = "date") Date date) {
+	public List<Course> GetCourseByDate(@PathParam(value = "date") Date date) {
 		return courseM.findCourseByDate(date);
 	}
 	@PUT
@@ -86,7 +86,7 @@ public class CourseRessource {
 	@PUT
 	@Path("/updateCourse/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateCourse(Courses course) {
+	public Response updateCourse(Course course) {
 		courseM.updateCourse(course);
 		
 		return Response.status(200).build();

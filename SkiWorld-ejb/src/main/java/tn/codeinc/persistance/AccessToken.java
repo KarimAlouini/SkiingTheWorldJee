@@ -4,6 +4,8 @@ import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,8 +17,6 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name = "access_tokens")
@@ -31,7 +31,7 @@ public class AccessToken {
 	private Integer id;
 	@JsonFormat(shape=Shape.STRING,pattern="yyyy-MM-dd hh:mm")
 	private Date expiresAt;
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.REMOVE)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 	private String value;

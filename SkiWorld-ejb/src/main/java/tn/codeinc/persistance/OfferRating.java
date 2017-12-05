@@ -22,7 +22,7 @@ public class OfferRating {
 	private String description;
 	
 	public OfferRating() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public Integer getId() {

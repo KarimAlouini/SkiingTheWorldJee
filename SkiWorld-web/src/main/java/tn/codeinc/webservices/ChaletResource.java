@@ -22,7 +22,7 @@ public class ChaletResource {
 	
     
 	@GET
-	
+
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getC() {
 		return Response.ok().entity(CT.getChal()).build();

@@ -1,6 +1,5 @@
 package tn.codeinc.services;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.ejb.Stateless;
@@ -8,19 +7,16 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.exceptions.AdAreaRequestDuplicationException;
-import tn.codeinc.exceptions.AdAreaRequestException;
-import tn.codeinc.exceptions.AuthenticationException;
-import tn.codeinc.exceptions.AuthorizationException;
 import tn.codeinc.exceptions.AdAreaRequestException;
 import tn.codeinc.exceptions.AuthorizationException;
 import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.persistance.AdArea;
 import tn.codeinc.persistance.AdAreaPurchaseRequest;
-import tn.codeinc.persistance.AdAreaPurchaseRequest.AdAreaPurchaseRequestConfirmation;
+import tn.codeinc.persistance.AdAreaPurchaseRequest.AdAreaPurchaseRequestStatus;
+import tn.codeinc.persistance.AdAreaPurchaseRequestId;
 
 @Stateless
 public class AdAreaManagement implements AdAreaManagementLocal, AdAreaManagementRemote {
@@ -35,9 +31,7 @@ public class AdAreaManagement implements AdAreaManagementLocal, AdAreaManagement
 
 	@Override
 	public List<AdArea> getAll() {
-		Interval i = new Interval(new Date().getTime(), new DateTime(new Date().getTime()).plusHours(2).getMillis());
-		System.out.println(
-				"AdAreaManagement.getAll() " + i.contains(new DateTime(new Date().getTime()).plusHours(1).getMillis()));
+
 		return em.createQuery("SELECT a FROM AdArea a", AdArea.class).getResultList();
 	}
 
@@ -100,7 +94,7 @@ public class AdAreaManagement implements AdAreaManagementLocal, AdAreaManagement
 	}
 
 	@Override
-	public List<AdAreaPurchaseRequest> getPurchaseRequestByType(AdArea adArea, AdAreaPurchaseRequestConfirmation conf)
+	public List<AdAreaPurchaseRequest> getPurchaseRequestByType(AdArea adArea, AdAreaPurchaseRequestStatus conf)
 			throws ElementNotFoundException {
 		AdArea a = get(adArea.getId());
 		if (a == null)
@@ -115,25 +109,24 @@ public class AdAreaManagement implements AdAreaManagementLocal, AdAreaManagement
 	}
 
 	@Override
-	public AdAreaPurchaseRequest getPurchaseRequest(Integer id) throws NoResultException {
+	public AdAreaPurchaseRequest getPurchaseRequest(AdAreaPurchaseRequestId id) throws NoResultException {
 		return em.find(AdAreaPurchaseRequest.class, id);
 	}
 
 	@Override
-	public void deletePurchaseRequest(AdAreaPurchaseRequest pr) throws ElementNotFoundException,AuthorizationException, AdAreaRequestException {
+	public void deletePurchaseRequest(AdAreaPurchaseRequest pr)
+			throws ElementNotFoundException, AuthorizationException, AdAreaRequestException {
 		AdAreaPurchaseRequest adAreaPurchaseRequest = getPurchaseRequest(pr.getId());
 		if (adAreaPurchaseRequest == null)
 			throw new ElementNotFoundException("The provided purchase request wasn't found");
-		
-		if(!currentUser.get().equals(adAreaPurchaseRequest.getUser())){
+
+		if (!currentUser.get().equals(adAreaPurchaseRequest.getUser())) {
 			throw new AuthorizationException();
 		}
-		
-		if(adAreaPurchaseRequest.getConfirmation() == AdAreaPurchaseRequestConfirmation.ACCEPTED)
+
+		if (adAreaPurchaseRequest.getConfirmation() == AdAreaPurchaseRequestStatus.ACCEPTED)
 			throw new AdAreaRequestException("The request has been already confirmed");
-		
-		
-		
+
 	}
 
 	@Override
@@ -141,16 +134,14 @@ public class AdAreaManagement implements AdAreaManagementLocal, AdAreaManagement
 		AdAreaPurchaseRequest pr = getPurchaseRequest(req.getId());
 		if (pr == null)
 			throw new ElementNotFoundException();
-		pr.setConfirmation(AdAreaPurchaseRequestConfirmation.ACCEPTED);
+		pr.setConfirmation(AdAreaPurchaseRequestStatus.ACCEPTED);
 		em.merge(pr);
-		
-		
+
 	}
 
 	@Override
-	public void deletePurchaseRequest(AdAreaPurchaseRequest pr, AdArea a) {
-		a.getPurchaseRequests().remove(pr);
-		em.merge(a);
+	public void deletePurchaseRequest(AdAreaPurchaseRequestId id) {
+		em.remove(getPurchaseRequest(id));
 
 	}
 

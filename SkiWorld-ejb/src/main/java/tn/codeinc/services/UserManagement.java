@@ -15,11 +15,8 @@ import tn.codeinc.persistance.AccessToken;
 import tn.codeinc.persistance.User;
 import tn.codeinc.persistance.User.UserRole;
 
-
 @Stateless
 public class UserManagement implements UserManagementRemote, UsersManagementLocal {
-
-	
 
 	@Inject
 	TokenManagementLocal tokens;
@@ -28,7 +25,7 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 	private MailSenderLocal mailSender;
 	@Inject
 	PersistanceContextLocal pc;
-	
+
 	@EJB
 	CurrentUserLocal cu;
 
@@ -63,8 +60,8 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 	public User getByMail(String mail) {
 
 		try {
-			return pc.getEM().createQuery("SELECT u FROM User u WHERE u.email = :email", User.class).setParameter("email", mail)
-					.getSingleResult();
+			return pc.getEM().createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
+					.setParameter("email", mail).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -100,7 +97,8 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 	@Override
 	public User getByConfirmationCode(String confirmationCode) {
 		try {
-			return pc.getEM().createQuery("SELECT u FROM User u WHERE u.confirmationCode = :confirmationCode", User.class)
+			return pc.getEM()
+					.createQuery("SELECT u FROM User u WHERE u.confirmationCode = :confirmationCode", User.class)
 					.setParameter("confirmationCode", confirmationCode).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
@@ -109,8 +107,8 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 
 	@Override
 	public List<User> getByRole(UserRole role) {
-		return pc.getEM().createQuery("SELECT u from User u WHERE u.role = :role", User.class).setParameter("role", role)
-				.getResultList();
+		return pc.getEM().createQuery("SELECT u from User u WHERE u.role = :role", User.class)
+				.setParameter("role", role).getResultList();
 	}
 
 	@Override
@@ -148,9 +146,9 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 						throw new AuthenticationException("You have been banned !");
 
 					} else {
-						
+
 						cu.set(u);
-						
+
 						AccessToken t = tokens.getLastPerUser(u);
 
 						if (t != null && t.isValid())
@@ -209,19 +207,22 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 
 	@Override
 	public void confirm(String code) throws AuthenticationException {
-		User user =getByConfirmationCode(code);
-		System.out.println("UserManagement.confirm() "+user);
+
+		User user = getByConfirmationCode(code);
+
 		if (user != null) {
-			if(user.isConfirmed())
-			user.setConfirmed(true);
-			//user.setConfirmationCode(null);
-			update(user);
-			
-			
+			if (!user.isConfirmed()) {
+				user.setConfirmed(true);
+				user.setConfirmationCode(null);
+				update(user);
+			}
+			else
+				throw new AuthenticationException("You have been already confirmed");
+
 		} else {
 			throw new AuthenticationException("The registration link is invalid");
 		}
-		
+
 	}
 
 	@Override
@@ -229,10 +230,10 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 		User u = getByMail(email);
 		if (u == null)
 			throw new UserException("No account related to this email");
-		else{
+		else {
 			mailSender.resendConfirmation(u);
 		}
-		
+
 	}
 
 }

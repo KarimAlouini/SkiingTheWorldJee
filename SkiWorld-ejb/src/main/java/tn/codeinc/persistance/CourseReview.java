@@ -22,11 +22,11 @@ private User user;
 @ManyToOne(fetch=FetchType.EAGER)
 @JoinColumn(name="courseID",referencedColumnName="courseID", insertable=false,updatable=false)
 
-private Courses course;
+private Course course;
 public CourseReview() {
 	super();
 }
-public CourseReview(ReviewPK reviewPK, String content, float rate, User user, Courses course) {
+public CourseReview(ReviewPK reviewPK, String content, float rate, User user, Course course) {
 	super();
 	this.reviewPK = reviewPK;
 	this.content = content;
@@ -58,10 +58,10 @@ public User getUser() {
 public void setUser(User user) {
 	this.user = user;
 }
-public Courses getCourse() {
+public Course getCourse() {
 	return course;
 }
-public void setCourse(Courses course) {
+public void setCourse(Course course) {
 	this.course = course;
 }
 

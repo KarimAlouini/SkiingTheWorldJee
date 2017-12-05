@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
-public class Courses implements Serializable{
+public class Course implements Serializable{
 @Id
 @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int courseID;
@@ -47,14 +47,14 @@ public class Courses implements Serializable{
 	@OneToMany(mappedBy="course",fetch=FetchType.EAGER,cascade=CascadeType.REMOVE)
 	@JsonIgnore
 	private List<CourseParticipation> participant;
-	public Courses() {
+	public Course() {
 		super();
 		participant= new ArrayList<>();
 		reviews= new ArrayList<>();
 	}
 	
 	
-	public Courses(int courseID, String courseName, CourseLevel courseLevel, Date date, Double price,
+	public Course(int courseID, String courseName, CourseLevel courseLevel, Date date, Double price,
 			int maxParticipants, CourseState courseState, String location, User guide, CourseNotification notification,
 			List<CourseReview> reviews, List<CourseParticipation> participant) {
 		super();

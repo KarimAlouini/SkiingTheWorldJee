@@ -12,21 +12,45 @@ public class AdAreaPurchaseRequestId  implements Serializable{
 	 */
 	private static final long serialVersionUID = 2921839860373861895L;
 	
-	private Integer user;
+	private Integer userId;
 	
-	private Integer adArea;
-	
-	private Date starDate;
-	
+	private Integer adAreaId;
+
+	public AdAreaPurchaseRequestId(Integer userId, Integer adAreaId) {
+		super();
+		this.userId = userId;
+		this.adAreaId = adAreaId;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public Integer getAdAreaId() {
+		return adAreaId;
+	}
+
+	public void setAdAreaId(Integer adAreaId) {
+		this.adAreaId = adAreaId;
+	}
+
+	public AdAreaPurchaseRequestId() {
+		super();
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((adArea == null) ? 0 : adArea.hashCode());
-		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		result = prime * result + ((adAreaId == null) ? 0 : adAreaId.hashCode());
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -36,56 +60,21 @@ public class AdAreaPurchaseRequestId  implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		AdAreaPurchaseRequestId other = (AdAreaPurchaseRequestId) obj;
-		if (adArea == null) {
-			if (other.adArea != null)
+		if (adAreaId == null) {
+			if (other.adAreaId != null)
 				return false;
-		} else if (!adArea.equals(other.adArea))
+		} else if (!adAreaId.equals(other.adAreaId))
 			return false;
-		if (user == null) {
-			if (other.user != null)
+		if (userId == null) {
+			if (other.userId != null)
 				return false;
-		} else if (!user.equals(other.user))
+		} else if (!userId.equals(other.userId))
 			return false;
 		return true;
 	}
 	
-	public Integer getAdArea() {
-		return adArea;
-	}
+
 	
-	public Integer getUser() {
-		return user;
-	}
-	
-	public void setAdArea(Integer adArea) {
-		this.adArea = adArea;
-	}
-	public void setUser(Integer user) {
-		this.user = user;
-	}
-	
-	public void setStarDate(Date starDate) {
-		this.starDate = starDate;
-	}
-	
-	public Date getStarDate() {
-		return starDate;
-	}
-	@Override
-	public String toString() {
-		return "AdAreaPurchaseRequestId [user=" + user + ", adArea=" + adArea + "]";
-	}
-	public AdAreaPurchaseRequestId(Integer user, Integer adArea,Date startDate) {
-		super();
-		this.user = user;
-		this.adArea = adArea;
-		this.starDate = startDate;
-	}
-	
-	
-	public AdAreaPurchaseRequestId() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	
 	

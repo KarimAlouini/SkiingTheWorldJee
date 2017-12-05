@@ -14,7 +14,7 @@ public class CourseParticipation  implements Serializable{
 private ParticipationPK participationPK;
 @ManyToOne
 @JoinColumn(name="courseId",referencedColumnName="courseID",nullable=false, insertable=false,updatable=false)
-private Courses course;
+private Course course;
 @ManyToOne
 @JoinColumn(name="userID",referencedColumnName="id",nullable=false,insertable=false,updatable=false)
 private User user;
@@ -26,7 +26,7 @@ public CourseParticipation() {
 
 //manytoone man7otouch l fetch 7ata l cascade
 
-public CourseParticipation(int idP, ParticipationPK participationPK, Courses course, User user) {
+public CourseParticipation(int idP, ParticipationPK participationPK, Course course, User user) {
 	super();
 	this.idP = idP;
 	this.participationPK = participationPK;
@@ -40,10 +40,10 @@ public ParticipationPK getParticipationPK() {
 public void setParticipationPK(ParticipationPK participationPK) {
 	this.participationPK = participationPK;
 }
-public Courses getCourse() {
+public Course getCourse() {
 	return course;
 }
-public void setCourse(Courses course) {
+public void setCourse(Course course) {
 	this.course = course;
 }
 public User getUser() {

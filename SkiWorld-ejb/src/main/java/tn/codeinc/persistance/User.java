@@ -16,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 public class User implements Serializable {
@@ -28,7 +30,7 @@ public class User implements Serializable {
 
 	@JsonIgnore
 	
-
+	@JsonProperty(access=Access.WRITE_ONLY)
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private UserRole role;

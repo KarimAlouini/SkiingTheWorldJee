@@ -21,6 +21,7 @@ import tn.codeinc.exceptions.TokenNotExistantException;
 import tn.codeinc.exceptions.UserException;
 import tn.codeinc.persistance.AccessToken;
 import tn.codeinc.persistance.User;
+import tn.codeinc.persistance.User.UserRole;
 import tn.codeinc.services.TokenManagementLocal;
 import tn.codeinc.services.UsersManagementLocal;
 import tn.codeinc.util.LoginResponse;
@@ -49,6 +50,8 @@ public class UserService {
 	@Produces(MediaType.APPLICATION_JSON)
 
 	public Response signUp(User user) {
+		
+		user.setRole(UserRole.ROLE_USER);
 	
 		try {
 			users.signUp(user);
@@ -65,7 +68,7 @@ public class UserService {
 	@Path("/confirm/{code}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response confirmRegistration(@PathParam("code") String code) {
-		System.out.println("UserService.confirmRegistration()");
+		System.out.println("UserService.confirmRegistration() "+code);
 		try{
 			users.confirm(code);
 			return Response.ok().entity(new ResponseMessage(0,  "Your registration has been confirmed !"))

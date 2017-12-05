@@ -11,24 +11,38 @@ import tn.codeinc.exceptions.AuthorizationException;
 import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.persistance.AdArea;
 import tn.codeinc.persistance.AdAreaPurchaseRequest;
-import tn.codeinc.persistance.AdAreaPurchaseRequest.AdAreaPurchaseRequestConfirmation;
-
+import tn.codeinc.persistance.AdAreaPurchaseRequest.AdAreaPurchaseRequestStatus;
+import tn.codeinc.persistance.AdAreaPurchaseRequestId;
 
 @Local
 public interface AdAreaManagementLocal {
 	public List<AdArea> getAll();
+
 	public AdArea get(int id);
+
 	public void delete(AdArea a);
+
 	public void update(AdArea a);
+
 	public void insert(AdArea a);
-	public void addPurchaseRequest(AdAreaPurchaseRequest pr) throws ElementNotFoundException, AdAreaRequestDuplicationException;
-	public void deletePurchaseRequest(AdAreaPurchaseRequest pr,AdArea a);
+
+	public void addPurchaseRequest(AdAreaPurchaseRequest pr)
+			throws ElementNotFoundException, AdAreaRequestDuplicationException;
+
+	public void deletePurchaseRequest(AdAreaPurchaseRequestId id);
+
 	public List<AdAreaPurchaseRequest> getPurchasesRequests(AdArea adArea) throws ElementNotFoundException;
-	public List<AdAreaPurchaseRequest> getPurchaseRequestByType(AdArea adArea, AdAreaPurchaseRequestConfirmation conf)
+
+	public List<AdAreaPurchaseRequest> getPurchaseRequestByType(AdArea adArea, AdAreaPurchaseRequestStatus conf)
 			throws ElementNotFoundException;
+
 	public List<AdAreaPurchaseRequest> getConnectedUserPurchaseRequest();
-	public AdAreaPurchaseRequest getPurchaseRequest(Integer id) throws NoResultException;
-	public void deletePurchaseRequest(AdAreaPurchaseRequest pr) throws ElementNotFoundException,AuthorizationException, AdAreaRequestException;
+
+	public AdAreaPurchaseRequest getPurchaseRequest(AdAreaPurchaseRequestId id) throws NoResultException;
+
+	public void deletePurchaseRequest(AdAreaPurchaseRequest pr)
+			throws ElementNotFoundException, AuthorizationException, AdAreaRequestException;
+
 	public void acceptPurchaseRequest(AdAreaPurchaseRequest req) throws ElementNotFoundException;
 
 }

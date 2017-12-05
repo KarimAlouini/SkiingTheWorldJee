@@ -3,20 +3,16 @@ package tn.codeinc.webservices;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
 import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.exceptions.AdAreaRequestDuplicationException;
-import tn.codeinc.exceptions.AdAreaRequestException;
-import tn.codeinc.exceptions.AuthorizationException;
 import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.persistance.AdArea;
 import tn.codeinc.persistance.AdAreaPurchaseRequest;
@@ -24,9 +20,12 @@ import tn.codeinc.persistance.User.UserRole;
 import tn.codeinc.services.AdAreaManagementLocal;
 import tn.codeinc.util.ResponseMessage;
 
+
 @Path("/secured/ad_areas")
 @RequestScoped
 public class AdAreaSecureService {
+	
+	
 
 	@Inject
 	private CurrentUserLocal currentUser;
@@ -75,5 +74,7 @@ public class AdAreaSecureService {
 
 		return Response.ok().entity(new ResponseMessage(0, "Added successfully")).build();
 	}
+	
+	
 
 }

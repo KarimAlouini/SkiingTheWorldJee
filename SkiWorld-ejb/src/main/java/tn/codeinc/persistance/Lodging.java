@@ -1,6 +1,8 @@
 package tn.codeinc.persistance;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -11,7 +13,7 @@ public class Lodging extends Offer  implements Serializable{
 	
 	private String typ;
 	@Temporal(TemporalType.DATE)
-	private java.util.Date startDate;
+	private Date startDate;
 	@Temporal(TemporalType.DATE)
 	private java.util.Date endDate;
 	private String etat;
