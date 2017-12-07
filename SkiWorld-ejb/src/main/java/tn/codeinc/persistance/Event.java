@@ -13,71 +13,65 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Event {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@NotNull 
+
+	@NotNull
 	private String name;
-	private Address Location;
-	@NotNull 
-	@Future
+	private String Location;
+	@NotNull
 	private Date Start;
-	@Future
 	private Date End;
-	private String description;	
+	private String description;
 	private EventType statue;
 	private String Image;
 	private Integer maxPlace;
-	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="user",nullable=false)
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user", nullable = false)
 	private User host;
-	
-	@OneToMany(mappedBy="event",fetch=FetchType.EAGER)
-	private List<EventInvitation> eventInvitations;
-	
 	@JsonIgnore
-	@OneToMany(targetEntity=KeyWord.class, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "event")
+	private List<EventInvitation> eventInvitations;
+
+	@JsonIgnore
+	@OneToMany(targetEntity = KeyWord.class, fetch = FetchType.EAGER)
 	private List<KeyWord> keyword;
+
 	@JsonIgnore
 	@ManyToMany
 	private List<User> users;
-	
-	public enum EventType{
-		Public,Private
+
+	public enum EventType {
+		Public, Private
 	}
 
 	public Event() {
 
 	}
-	
 
 	public List<EventInvitation> getEventInvitations() {
 		return eventInvitations;
 	}
 
-
 	public void setEventInvitations(List<EventInvitation> eventInvitations) {
 		this.eventInvitations = eventInvitations;
 	}
-
-	
 
 	public List<User> getUsers() {
 		return users;
 	}
 
-
 	public void setUsers(List<User> users) {
 		this.users = users;
 	}
-
 
 	public Integer getId() {
 		return id;
@@ -103,11 +97,11 @@ public class Event {
 		this.name = name;
 	}
 
-	public Address getLocation() {
+	public String getLocation() {
 		return Location;
 	}
 
-	public void setLocation(Address location) {
+	public void setLocation(String location) {
 		Location = location;
 	}
 
@@ -166,6 +160,5 @@ public class Event {
 	public void setKeyword(List<KeyWord> keyword) {
 		this.keyword = keyword;
 	}
-	
 
 }

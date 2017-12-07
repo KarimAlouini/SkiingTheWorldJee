@@ -36,7 +36,7 @@ public class User implements Serializable {
 	private UserRole role;
 	private Double balance;
 	@JsonIgnore
-	@OneToMany(targetEntity = Event.class, fetch = FetchType.EAGER)
+	@OneToMany(targetEntity = Event.class, fetch = FetchType.EAGER, mappedBy="host")
 	private List<Event> myEvents;
 	@JsonIgnore
 	@ManyToMany

@@ -1,12 +1,13 @@
 package tn.codeinc.services;
 
 import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import tn.codeinc.client.CurrentUserLocal;
-import tn.codeinc.client.CurrentUserRemote;
+import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.persistance.Event;
 import tn.codeinc.persistance.Event.EventType;
 import tn.codeinc.persistance.EventInvitation;
@@ -27,8 +28,13 @@ public class EventManagement implements EventManagementLocal,EventManagementRemo
 	}
 
 	@Override
-	public Event get(int id) {
-		return em.find(Event.class, id);
+	public Event get(int id) throws ElementNotFoundException{
+		Event e = em.find(Event.class, id);
+		if (e == null)
+			throw new ElementNotFoundException("Event not found");
+		else
+			return e;
+		
 	}
 
 	@Override
@@ -57,7 +63,7 @@ public class EventManagement implements EventManagementLocal,EventManagementRemo
 		
 	}
 	
-	public void invite(EventInvitation eventInvitation){
+	public void invite(EventInvitation eventInvitation) throws ElementNotFoundException{
 		Event event = get(eventInvitation.getEvent().getId());
 		eventInvitation.setEvent(event);
 		
@@ -66,7 +72,7 @@ public class EventManagement implements EventManagementLocal,EventManagementRemo
 		event.getEventInvitations().add(eventInvitation);
 		em.merge(event);
 	}
-	public void applyForEvent(Event event){
+	public void applyForEvent(Event event) throws ElementNotFoundException{
 		event = get(event.getId());
 		event.getUsers().add(currentUser.get());
 		em.merge(event);
