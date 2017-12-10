@@ -2,12 +2,13 @@ package tn.codeinc.services;
 
 import java.util.List;
 
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import tn.codeinc.persistance.*;
+import tn.codeinc.persistance.Chalet;
+import tn.codeinc.persistance.Establishment;
+import tn.codeinc.persistance.Resort;
 
 @Stateless
 public class EstablishmentService implements EstablishmentInterfaceLocal, EstablishmentInterfaceRemote{

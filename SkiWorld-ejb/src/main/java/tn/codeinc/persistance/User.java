@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -24,34 +25,37 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String login, firstName, lastName, email, phoneNumber;
 
 	@JsonIgnore
-	
-	@JsonProperty(access=Access.WRITE_ONLY)
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 	private Double balance;
+	
 	@JsonIgnore
-	@OneToMany(targetEntity = Event.class, fetch = FetchType.EAGER, mappedBy="host")
+	@OneToMany(targetEntity = Event.class, fetch = FetchType.EAGER, mappedBy = "host")
 	private List<Event> myEvents;
+	
 	@JsonIgnore
 	@ManyToMany
 	private List<Event> myParticipation;
+
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-
 	@JsonIgnore
-
 	private List<TestLevel> levelTests;
+
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	@JsonIgnore
 	private List<CourseReview> reviews;
+	
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<CourseParticipation> participations;
+	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private List<CourseNotification> lstNotif;
@@ -62,15 +66,13 @@ public class User implements Serializable {
 	 * @OneToMany (mappedBy ="Receiver") private List<EventInvitation>
 	 * eventInvitationsReceiver;
 	 */
-	
-	
-	
-	/*@OneToMany
-	private List<EventInvitation> eventInvitationsSender;
-	
-	@OneToMany (mappedBy ="Receiver")
-	private List<EventInvitation> eventInvitationsReceiver;
-	*/
+
+	/*
+	 * @OneToMany private List<EventInvitation> eventInvitationsSender;
+	 * 
+	 * @OneToMany (mappedBy ="Receiver") private List<EventInvitation>
+	 * eventInvitationsReceiver;
+	 */
 	@JsonIgnore
 	@OneToMany(targetEntity = AdAreaPurchaseRequest.class, mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<AdAreaPurchaseRequest> purchaseRequests;
@@ -111,8 +113,6 @@ public class User implements Serializable {
 		this.role = role;
 		this.address = address;
 	}
-
-	
 
 	public List<Event> getMyParticipation() {
 		return myParticipation;
@@ -186,8 +186,6 @@ public class User implements Serializable {
 		this.role = role;
 	}
 
-
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -241,8 +239,6 @@ public class User implements Serializable {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-
-	
 
 	public List<TestLevel> getLevelTests() {
 		return levelTests;
@@ -305,11 +301,11 @@ public class User implements Serializable {
 	public String getConfirmationCode() {
 		return confirmationCode;
 	}
-	
+
 	public Double getBalance() {
 		return balance;
 	}
-	
+
 	public void setBalance(Double balance) {
 		this.balance = balance;
 	}
