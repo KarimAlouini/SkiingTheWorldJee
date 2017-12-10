@@ -1,6 +1,7 @@
 package tn.codeinc.persistance;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +9,9 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+
+
 
 /**
  * Entity implementation class for Entity: JobOffer
@@ -30,6 +34,11 @@ public class JobOffer implements Serializable {
 	private String description;
 	private String name;
 	private boolean isArchived ;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private Date creationDate;
+
+	@Enumerated(EnumType.STRING)
+	private JobOfferCategory jobOfferCategory;
 	
 	
 	@ManyToOne(fetch=FetchType.EAGER,cascade=CascadeType.DETACH)
@@ -88,6 +97,7 @@ public class JobOffer implements Serializable {
 		this.applicationsByClients = new ArrayList<JobApply>();
 		this.offerMessagesOnThisOffer = new ArrayList<OfferMessage>();
 		this.isArchived= isArchived;
+		this.creationDate = new Date();
 	}
 
 	
@@ -187,6 +197,27 @@ public class JobOffer implements Serializable {
 	public void setArchived(boolean isArchived) {
 		this.isArchived = isArchived;
 	}
+
+	public JobOfferCategory getJobOfferCategory() {
+		return jobOfferCategory;
+	}
+
+	public void setJobOfferCategory(JobOfferCategory jobOfferCategory) {
+		this.jobOfferCategory = jobOfferCategory;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	
+	
    
 	
 }
+
+

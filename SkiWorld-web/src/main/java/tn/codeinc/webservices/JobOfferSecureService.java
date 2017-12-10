@@ -16,6 +16,7 @@ import javax.ws.rs.core.Response.Status;
 
 import tn.codeinc.client.CurrentUser;
 import tn.codeinc.client.CurrentUserLocal;
+import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.persistance.Event;
 import tn.codeinc.persistance.JobOffer;
 import tn.codeinc.persistance.User;
@@ -55,11 +56,24 @@ public class JobOfferSecureService {
 		return Response.ok().entity(new ResponseMessage(0,"Added Seccessfully")).build();
 	}
 	
+	@Path("/AddOffer2")
+	@PUT
+	@Consumes (MediaType.APPLICATION_JSON)
+	@Produces (MediaType.APPLICATION_JSON)
+	
+	public Response addMyOfferss(JobOffer jo){
+		if (currentUser.get().getRole() != UserRole.ROLE_AGENT)
+			return Response.status(Status.UNAUTHORIZED).build();
+		
+		jobOfferManagementLocal.create(jo);
+		return Response.ok().entity(new ResponseMessage(0,"Added Seccessfully")).build();
+	}
+	
 	@DELETE
 	@Consumes (MediaType.APPLICATION_JSON)
 	@Produces (MediaType.APPLICATION_JSON)
 	
-	public Response DelieteThisOffer(JobOffer jo){
+	public Response DelieteThisOffer(JobOffer jo) throws ElementNotFoundException{
 	    if (currentUser.get().getRole() !=UserRole.ROLE_AGENT)
 	    	return Response.status(Status.UNAUTHORIZED).build();
 	    jobOfferManagementLocal.remove(jo);
