@@ -19,7 +19,7 @@ public class KeyWord {
 	private String content;
 	
 	@JsonIgnore
-	@ManyToOne(targetEntity=Event.class, fetch=FetchType.EAGER)
+	@ManyToOne
 	private Event event;
 
 
