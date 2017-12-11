@@ -15,11 +15,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -52,9 +56,11 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<CourseParticipation> participations;
+	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private List<CourseNotification> lstNotif;
+
 
 	/*
 	 * @OneToMany private List<EventInvitation> eventInvitationsSender;
@@ -72,7 +78,8 @@ public class User implements Serializable {
 	private List<EventInvitation> eventInvitationsReceiver;
 	*/
 	@JsonIgnore
-	@OneToMany(targetEntity = AdAreaPurchaseRequest.class, mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	
+	@OneToMany(targetEntity = AdAreaPurchaseRequest.class, mappedBy = "user", fetch = FetchType.EAGER)
 	private List<AdAreaPurchaseRequest> purchaseRequests;
 
 	public enum UserRole {
@@ -276,9 +283,7 @@ public class User implements Serializable {
 		this.lstNotif = lstNotif;
 	}
 
-	public List<AdAreaPurchaseRequest> getPurchaseRequests() {
-		return purchaseRequests;
-	}
+	
 
 	public void setPurchaseRequests(List<AdAreaPurchaseRequest> purchaseRequests) {
 		this.purchaseRequests = purchaseRequests;
@@ -312,6 +317,11 @@ public class User implements Serializable {
 	
 	public void setBalance(Double balance) {
 		this.balance = balance;
+	}
+	
+	@JsonIgnore
+	public List<AdAreaPurchaseRequest> getPurchaseRequests() {
+		return purchaseRequests;
 	}
 
 }

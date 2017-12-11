@@ -29,13 +29,14 @@ public class SecurityFilter implements ContainerRequestFilter {
 
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
-
+		
 		if (requestContext.getUriInfo().getPath().contains(SECURED_URI_PREFIX)) {
 			List<String> authHeader = requestContext.getHeaders().get(AUTHORIZATION_HEADER);
 			if (authHeader != null && authHeader.size() > 0) {
 				String authToken = authHeader.get(0);
 				authToken = authToken.replaceFirst(AUTHORIZATION_HEADER_PREFIX, "");
-
+				
+				System.out.println("SecurityFilter.filter() " + authToken);
 				AccessToken token = tokens.get(authToken);
 				if (token != null) {
 
@@ -61,7 +62,8 @@ public class SecurityFilter implements ContainerRequestFilter {
 				requestContext.abortWith(unauthorizedStatus);
 
 			} else {
-				Response unauthorizedStatus = Response.status(Status.UNAUTHORIZED).entity("unauthorized").build();
+				
+				Response unauthorizedStatus = Response.status(Status.UNAUTHORIZED).build();
 				requestContext.abortWith(unauthorizedStatus);
 
 			}

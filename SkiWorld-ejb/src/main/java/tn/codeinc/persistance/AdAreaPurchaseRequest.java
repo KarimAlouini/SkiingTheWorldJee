@@ -24,11 +24,10 @@ public class AdAreaPurchaseRequest {
 	@EmbeddedId
 	private AdAreaPurchaseRequestId id;
 	//@Column(name = "start_date", nullable = false)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
 	private Date startDate;
 
 	@Column(name = "end_date", nullable = false)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+	
 	private Date endDate;
 
 	@JsonIgnore
@@ -132,7 +131,5 @@ public class AdAreaPurchaseRequest {
 		this.confirmation = confirmation;
 	}
 
-	
-	
 
 }
