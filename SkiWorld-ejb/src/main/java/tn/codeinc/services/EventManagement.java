@@ -93,7 +93,7 @@ public class EventManagement implements EventManagementLocal,EventManagementRemo
 		em.persist(event);	
 
 	}
-	
+	@Override
 	public void invite(EventInvitation eventInvitation) throws ElementNotFoundException{
 		Event event = get(eventInvitation.getEvent().getId());
 		eventInvitation.setEvent(event);
@@ -103,8 +103,15 @@ public class EventManagement implements EventManagementLocal,EventManagementRemo
 		event.getEventInvitations().add(eventInvitation);
 		em.merge(event);
 	}
-	public void applyForEvent(Event event) throws ElementNotFoundException{
+	@Override
+	public void applyForEvent(Event event) throws ElementNotFoundException, EventException{
+		
 		event = get(event.getId());
+		if(event.isFull())
+			throw new EventException("There is no place place empty!!");
+		if(event.hasUser(currentUser.get()))
+			throw new EventException("User is already in!!");
+		
 		event.getUsers().add(currentUser.get());
 		em.merge(event);
 		

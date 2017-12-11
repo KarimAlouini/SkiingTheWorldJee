@@ -32,8 +32,6 @@ public class User implements Serializable {
 	private Integer id;
 	private String login, firstName, lastName, email, phoneNumber;
 
-	@JsonIgnore
-	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
@@ -179,6 +177,8 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	@JsonProperty(access = Access.WRITE_ONLY)
 
 	public String getPassword() {
 		return password;

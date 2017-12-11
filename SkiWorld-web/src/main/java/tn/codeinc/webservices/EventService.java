@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.persistance.Event;
 import tn.codeinc.persistance.Event.EventType;
@@ -25,6 +26,8 @@ import tn.codeinc.util.ResponseMessage;
 public class EventService {
 	@Inject
 	private EventManagementLocal events;
+	@Inject
+	CurrentUserLocal currentUser;
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -46,6 +49,7 @@ public class EventService {
 			return Response.ok().entity(new ResponseMessage(1, e.getMessage())).build();
 		}
 	}
+	
 	
 	
 	@POST

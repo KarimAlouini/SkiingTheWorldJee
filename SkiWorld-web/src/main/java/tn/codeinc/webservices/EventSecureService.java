@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.exceptions.BadWordException;
+import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.exceptions.EventException;
 import tn.codeinc.persistance.Event;
 import tn.codeinc.persistance.User.UserRole;
@@ -60,6 +61,27 @@ public class EventSecureService {
 		}
 		return Response.ok().entity(new ResponseMessage(0,"q")).build();
 	}
+	@Path("/apply")
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response applyForEvent(Event event){
+		
+			try {
+				events.applyForEvent(event);
+			} catch (ElementNotFoundException | EventException e) {
+				// TODO Auto-generated catch block
+				return Response.ok().entity(new ResponseMessage(1, e.getMessage())).build();
+			};
+		
+		return Response.ok().entity(new ResponseMessage(0,"q")).build();
+		}
+//	@PUT
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response invite(Event event){
+//		
+//	}
 	
 	
 }
