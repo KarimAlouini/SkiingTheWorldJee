@@ -81,6 +81,7 @@ public class UserService {
 	}
 
 	@POST
+	
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(@HeaderParam("login") String login, @HeaderParam("password") String password) {
 		

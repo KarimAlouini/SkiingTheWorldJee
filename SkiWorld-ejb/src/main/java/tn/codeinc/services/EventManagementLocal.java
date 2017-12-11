@@ -10,6 +10,7 @@ import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.exceptions.EventException;
 import tn.codeinc.persistance.Event;
 import tn.codeinc.persistance.Event.EventType;
+import tn.codeinc.persistance.EventInvitation;
 import tn.codeinc.persistance.KeyWord;
 
 @Local
@@ -21,5 +22,7 @@ public interface EventManagementLocal {
 	public void update(Event event);
 	public List<Event> getByType(EventType statue);
 	public List<Event> getByKeywords(List<KeyWord> keywords);
+	void applyForEvent(Event event) throws ElementNotFoundException, EventException;
+	void invite(EventInvitation eventInvitation) throws ElementNotFoundException;
 
 }

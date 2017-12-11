@@ -17,10 +17,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,11 +32,10 @@ public class User implements Serializable {
 	private Integer id;
 	private String login, firstName, lastName, email, phoneNumber;
 
-	@JsonIgnore
-	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
+	@JsonProperty(access=Access.READ_ONLY)
 	private Double balance;
 	
 	@JsonIgnore
@@ -59,6 +61,9 @@ public class User implements Serializable {
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private List<CourseNotification> lstNotif;
+	
+	private String imageName;
+
 
 	/*
 	 * @OneToMany private List<EventInvitation> eventInvitationsSender;
@@ -74,7 +79,8 @@ public class User implements Serializable {
 	 * eventInvitationsReceiver;
 	 */
 	@JsonIgnore
-	@OneToMany(targetEntity = AdAreaPurchaseRequest.class, mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	
+	@OneToMany(targetEntity = AdAreaPurchaseRequest.class, mappedBy = "user", fetch = FetchType.EAGER)
 	private List<AdAreaPurchaseRequest> purchaseRequests;
 
 	public enum UserRole {
@@ -86,9 +92,11 @@ public class User implements Serializable {
 
 	private Address address;
 	@Column(columnDefinition = "int default 0")
+	@JsonProperty(access=Access.READ_ONLY)
 	private boolean isBanned;
 
 	@Column(columnDefinition = "int default 0")
+	@JsonProperty(access=Access.READ_ONLY)
 	private boolean isConfirmed;
 
 	private String confirmationCode;
@@ -169,6 +177,8 @@ public class User implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	@JsonProperty(access = Access.WRITE_ONLY)
 
 	public String getPassword() {
 		return password;
@@ -272,9 +282,7 @@ public class User implements Serializable {
 		this.lstNotif = lstNotif;
 	}
 
-	public List<AdAreaPurchaseRequest> getPurchaseRequests() {
-		return purchaseRequests;
-	}
+	
 
 	public void setPurchaseRequests(List<AdAreaPurchaseRequest> purchaseRequests) {
 		this.purchaseRequests = purchaseRequests;
@@ -308,6 +316,19 @@ public class User implements Serializable {
 
 	public void setBalance(Double balance) {
 		this.balance = balance;
+	}
+	
+	@JsonIgnore
+	public List<AdAreaPurchaseRequest> getPurchaseRequests() {
+		return purchaseRequests;
+	}
+	
+	public String getImageName() {
+		return imageName;
+	}
+	
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
 	}
 
 }

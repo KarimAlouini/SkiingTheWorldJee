@@ -5,8 +5,11 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import javax.ws.rs.core.UriInfo;
+import javax.xml.registry.infomodel.EmailAddress;
 
 import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.exceptions.AuthenticationException;
@@ -23,8 +26,9 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 
 	@Inject
 	private MailSenderLocal mailSender;
-	@Inject
-	PersistanceContextLocal pc;
+
+	@PersistenceContext
+	EntityManager em;
 
 	@EJB
 	CurrentUserLocal cu;
@@ -36,23 +40,23 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 	@Override
 	public List<User> getAll() {
 
-		return pc.getEM().createQuery("SELECT u FROM User u", User.class).getResultList();
+		return em.createQuery("SELECT u FROM User u", User.class).getResultList();
 	}
 
 	@Override
 	public User get(int id) {
-		return pc.getEM().find(User.class, id);
+		return em.find(User.class, id);
 	}
 
 	@Override
 	public void remove(User user) {
-		pc.getEM().remove(user);
+		em.remove(user);
 
 	}
 
 	@Override
 	public void update(User user) {
-		pc.getEM().merge(user);
+		em.merge(user);
 
 	}
 
@@ -60,7 +64,7 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 	public User getByMail(String mail) {
 
 		try {
-			return pc.getEM().createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
+			return em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
 					.setParameter("email", mail).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
@@ -71,7 +75,7 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 	@Override
 	public User getByLogin(String login) {
 		try {
-			return pc.getEM().createQuery("SELECT u FROM User u WHERE u.login = :login", User.class)
+			return em.createQuery("SELECT u FROM User u WHERE u.login = :login", User.class)
 					.setParameter("login", login).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
@@ -81,7 +85,7 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 	@Override
 	public User getByPhoneNumber(String phoneNumber) {
 		try {
-			return pc.getEM().createQuery("SELECT u FROM User u WHERE u.phoneNumber = :phoneNumber", User.class)
+			return em.createQuery("SELECT u FROM User u WHERE u.phoneNumber = :phoneNumber", User.class)
 					.setParameter("phoneNumber", phoneNumber).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
@@ -90,14 +94,14 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 
 	@Override
 	public void insert(User user) {
-		pc.getEM().merge(user);
+		em.merge(user);
 
 	}
 
 	@Override
 	public User getByConfirmationCode(String confirmationCode) {
 		try {
-			return pc.getEM()
+			return em
 					.createQuery("SELECT u FROM User u WHERE u.confirmationCode = :confirmationCode", User.class)
 					.setParameter("confirmationCode", confirmationCode).getSingleResult();
 		} catch (NoResultException e) {
@@ -107,19 +111,19 @@ public class UserManagement implements UserManagementRemote, UsersManagementLoca
 
 	@Override
 	public List<User> getByRole(UserRole role) {
-		return pc.getEM().createQuery("SELECT u from User u WHERE u.role = :role", User.class)
+		return em.createQuery("SELECT u from User u WHERE u.role = :role", User.class)
 				.setParameter("role", role).getResultList();
 	}
 
 	@Override
 	public List<User> getBanned() {
 		// TODO Auto-generated method stub
-		return pc.getEM().createQuery("SELECT u from User u WHERE u.isBanned = true", User.class).getResultList();
+		return em.createQuery("SELECT u from User u WHERE u.isBanned = true", User.class).getResultList();
 	}
 
 	@Override
 	public List<User> getActive() {
-		return pc.getEM().createQuery("SELECT u from User u WHERE u.isBanned = false", User.class).getResultList();
+		return em.createQuery("SELECT u from User u WHERE u.isBanned = false", User.class).getResultList();
 	}
 
 	@Override

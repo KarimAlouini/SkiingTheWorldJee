@@ -27,4 +27,5 @@ public interface UsersManagementLocal {
 	public void confirm(String code) throws AuthenticationException;
 	public void resendConfirmation(String email) throws UserException;
 	
+	
 }
