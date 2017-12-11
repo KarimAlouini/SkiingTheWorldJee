@@ -19,7 +19,7 @@ public interface EventManagementLocal {
 	public List<Event> getAll();
 	public Event get(int id) throws ElementNotFoundException;
 	public void remove(Event event);
-	public void update(Event event);
+	public void update(Event event) throws BadWordException, EventException;
 	public List<Event> getByType(EventType statue);
 	public List<Event> getByKeywords(List<KeyWord> keywords);
 	void applyForEvent(Event event) throws ElementNotFoundException, EventException;

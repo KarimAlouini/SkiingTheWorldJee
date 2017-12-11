@@ -60,7 +60,22 @@ public class EventManagement implements EventManagementLocal,EventManagementRemo
 	}
 
 	@Override
-	public void update(Event event) {
+	public void update(Event event) throws BadWordException, EventException {
+		event.setHost(currentUser.get());
+		Interval i = new Interval(event.getStart().getTime(), event.getEnd().getTime());
+		if(this.getAll().stream().filter(e -> i.contains(event.getStart().getTime()))
+				.filter(e -> i.contains(event.getEnd().getTime()))
+				.anyMatch(e -> e.getHost().equals(currentUser.get()) && e.getName().equals(event.getName()))){
+			throw new EventException("Event already existant in this time zone!!!");
+		}
+
+		// BadWord Condition
+		String[] splited = event.getDescription().toLowerCase().split("\\b+");
+		for (BadWord bw : badWord.getAll()) {
+			if (Arrays.asList(splited).contains(bw.getContent().toLowerCase()) == true)
+				throw new BadWordException("BadWord");
+		}
+
 		em.merge(event);
 		
 	}

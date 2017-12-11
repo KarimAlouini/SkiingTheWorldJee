@@ -61,6 +61,26 @@ public class EventSecureService {
 		}
 		return Response.ok().entity(new ResponseMessage(0,"q")).build();
 	}
+	
+	@Path("/update")
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response update(Event event) {
+		if (currentUser.get().getRole()!=UserRole.ROLE_USER)
+			return Response.status(Status.UNAUTHORIZED).build();
+		try {
+			events.update(event);
+		} catch (BadWordException e) {
+			// TODO Auto-generated catch block
+			return Response.ok().entity(new ResponseMessage(1, e.getMessage())).build();
+		} catch (EventException e) {
+			// TODO Auto-generated catch block
+			return Response.ok().entity(new ResponseMessage(1, e.getMessage())).build();
+		}
+		return Response.ok().entity(new ResponseMessage(0,"q")).build();
+	}
+	
 	@Path("/apply")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -75,7 +95,31 @@ public class EventSecureService {
 			};
 		
 		return Response.ok().entity(new ResponseMessage(0,"q")).build();
-		}
+	}
+	@Path("/delete")
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteEvent(Event event){
+		events.remove(event);
+		return Response.ok().entity(new ResponseMessage(0,"q")).build();
+	}
+	
+//	@Path("/invite")
+//	@PUT
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response inviteUser(Event event){
+//		
+//			try {
+//				events.invite(eventInvitation);
+//			} catch (ElementNotFoundException | EventException e) {
+//				// TODO Auto-generated catch block
+//				return Response.ok().entity(new ResponseMessage(1, e.getMessage())).build();
+//			};
+//		
+//		return Response.ok().entity(new ResponseMessage(0,"q")).build();
+//		}
 //	@PUT
 //	@Consumes(MediaType.APPLICATION_JSON)
 //	@Produces(MediaType.APPLICATION_JSON)
