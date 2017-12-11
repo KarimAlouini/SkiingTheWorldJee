@@ -37,6 +37,7 @@ public class User implements Serializable {
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
+	@JsonProperty(access=Access.READ_ONLY)
 	private Double balance;
 	
 	@JsonIgnore
@@ -62,6 +63,8 @@ public class User implements Serializable {
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 	private List<CourseNotification> lstNotif;
+	
+	private String imageName;
 
 
 	/*
@@ -91,9 +94,11 @@ public class User implements Serializable {
 
 	private Address address;
 	@Column(columnDefinition = "int default 0")
+	@JsonProperty(access=Access.READ_ONLY)
 	private boolean isBanned;
 
 	@Column(columnDefinition = "int default 0")
+	@JsonProperty(access=Access.READ_ONLY)
 	private boolean isConfirmed;
 
 	private String confirmationCode;
@@ -316,6 +321,14 @@ public class User implements Serializable {
 	@JsonIgnore
 	public List<AdAreaPurchaseRequest> getPurchaseRequests() {
 		return purchaseRequests;
+	}
+	
+	public String getImageName() {
+		return imageName;
+	}
+	
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
 	}
 
 }

@@ -41,7 +41,9 @@ public class ResponseMessage implements Serializable {
 		return "ResponseMessage [code=" + code + ", message=" + message + "]";
 	}
 	
-	
+	public ResponseMessage(int code){
+		this.code = code;
+	}
 	
 
 }

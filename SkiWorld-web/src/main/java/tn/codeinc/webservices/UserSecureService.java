@@ -1,9 +1,7 @@
 package tn.codeinc.webservices;
 
-import java.io.File;
 import java.util.List;
 import java.util.Map;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -18,14 +16,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-
 import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.persistance.User;
 import tn.codeinc.persistance.User.UserRole;
@@ -36,13 +31,12 @@ import tn.codeinc.util.ResponseMessage;
 @Path("/secured/users")
 @RequestScoped
 public class UserSecureService {
-	
-	private final String UPLOAD_DIR="resources";
 
-	
+	private final String UPLOAD_DIR = "resources";
+
 	@Context
 	ServletContext context;
-	
+
 	@Inject
 	UsersManagementLocal users;
 	@Inject
@@ -111,29 +105,26 @@ public class UserSecureService {
 	@Consumes("multipart/form-data")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response update(@HeaderParam("user") String user, MultipartFormDataInput input) {
-		
-		
-		
+
 		Gson gson = new GsonBuilder().create();
-		try{
-			 User u = gson.fromJson(user, User.class);
-			System.out.println("UserSecureService.update() "+u);
-			String fileName = "";
+		try {
+			User u = gson.fromJson(user, User.class);
 
 			Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 			List<InputPart> inputParts = uploadForm.get("uploadedFile");
+			System.out.println("UserSecureService.update() "+inputParts==null);
+			String uploadResult = FileUpload.upload(inputParts, this.context.getRealPath(UPLOAD_DIR) + "\\users");
 
-			
-			
-			
-			FileUpload.upload(inputParts,this.context.getRealPath(UPLOAD_DIR)+"\\users",u.getId()+"");
-		}catch(JsonSyntaxException e){
-			e.printStackTrace();
+			if (uploadResult!= null)
+				u.setImageName(uploadResult);
+			users.update(u);
+			return Response.ok().entity(new ResponseMessage(0, new GsonBuilder().create().toJson(u))).build();
+
+		} catch (JsonSyntaxException e) {
+			return Response.ok().entity(new ResponseMessage(1)).build();
 		}
-		
-		
 
-		return Response.ok().build();
+		
 	}
 
 }

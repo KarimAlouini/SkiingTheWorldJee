@@ -5,45 +5,56 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
 import javax.ws.rs.core.MultivaluedMap;
-import org.apache.commons.io.FilenameUtils;
+
 import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 
-public class FileUpload {
-	
-	public static void upload(List<InputPart> inputParts,String folder,String fileName){
-		
-		
-			for (InputPart inputPart : inputParts) {
 
-			 try {
+
+public class FileUpload {
+
+	public static String upload(List<InputPart> inputParts, String folder) {
+
+		for (InputPart inputPart : inputParts) {
+
+			try {
 
 				MultivaluedMap<String, String> header = inputPart.getHeaders();
 				String realName = getFileName(header);
 
-				//convert the uploaded file to inputstream
-				InputStream inputStream = inputPart.getBody(InputStream.class,null);
+				if(realName.equals("unknown")){
+					return null;
+				}
+				else{
+					// convert the uploaded file to inputstream
+					InputStream inputStream = inputPart.getBody(InputStream.class, null);
 
-				byte [] bytes = IOUtils.toByteArray(inputStream);
+					byte[] bytes = IOUtils.toByteArray(inputStream);
 
-				//constructs upload file path
+					// constructs upload file path
+
+					File uploadFolder = new File(folder);
+					if (!uploadFolder.exists())
+						uploadFolder.mkdirs();
+
+					//writeFile(bytes, folder + "\\" + fileName + "." + FilenameUtils.getExtension(realName));
+					writeFile(bytes, folder + "\\" + realName);
+				}
+				return realName;
 				
-				File uploadFolder = new File(folder);
-				if(!uploadFolder.exists())
-					uploadFolder.mkdirs();
-				
 				
 
-				writeFile(bytes,folder+"\\"+fileName+"."+FilenameUtils.getExtension(realName));
-
-			  } catch (IOException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
-			  }
+				
+			}
 
 		}
+		return null;
 	}
-	
+
 	private static String getFileName(MultivaluedMap<String, String> header) {
 
 		String[] contentDisposition = header.getFirst("Content-Disposition").split(";");
@@ -59,22 +70,19 @@ public class FileUpload {
 		}
 		return "unknown";
 	}
-	
+
 	private static void writeFile(byte[] content, String filename) throws IOException {
-System.out.println("FileUpload.writeFile() "+filename);
+		System.out.println("FileUpload.writeFile() " + filename);
 		File file = new File(filename);
 
 		if (!file.exists()) {
 			file.createNewFile();
 		}
-
 		FileOutputStream fop = new FileOutputStream(file);
-
 		fop.write(content);
 		fop.flush();
 		fop.close();
 
 	}
-	
 
 }
