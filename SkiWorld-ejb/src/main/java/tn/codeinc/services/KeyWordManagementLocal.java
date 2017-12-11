@@ -2,8 +2,6 @@ package tn.codeinc.services;
 
 import java.util.List;
 
-import tn.codeinc.persistance.Event;
-import tn.codeinc.persistance.Event.EventType;
 import tn.codeinc.persistance.KeyWord;
 
 public interface KeyWordManagementLocal {

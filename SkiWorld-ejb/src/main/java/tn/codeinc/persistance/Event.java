@@ -1,7 +1,10 @@
 package tn.codeinc.persistance;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,6 +18,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @Entity
 public class Event {
@@ -37,12 +41,12 @@ public class Event {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user", nullable = false)
 	private User host;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "event")
 	private List<EventInvitation> eventInvitations;
-
-	@JsonIgnore
-	@OneToMany(targetEntity = KeyWord.class, fetch = FetchType.EAGER)
+	
+	@OneToMany(targetEntity = KeyWord.class, fetch = FetchType.EAGER,cascade=CascadeType.ALL)
 	private List<KeyWord> keyword;
 
 	@JsonIgnore
@@ -160,5 +164,48 @@ public class Event {
 	public void setKeyword(List<KeyWord> keyword) {
 		this.keyword = keyword;
 	}
+
+	public Event(String name, String location, Date start, Date end, String description, String image, Integer maxPlace,
+			User host, List<KeyWord> keyword) {
+		super();
+		this.name = name;
+		Location = location;
+		Start = start;
+		End = end;
+		this.description = description;
+		Image = image;
+		this.maxPlace = maxPlace;
+		this.host = host;
+		this.keyword = keyword;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Event other = (Event) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
+	
+	
+	
 
 }

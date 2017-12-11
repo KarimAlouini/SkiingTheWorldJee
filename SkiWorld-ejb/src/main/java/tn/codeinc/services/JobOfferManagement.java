@@ -1,4 +1,6 @@
 package tn.codeinc.services;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -7,7 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.persistance.JobOffer;
+import tn.codeinc.persistance.JobOfferCategory;
 import tn.codeinc.persistance.User;
 
 @Stateless
@@ -23,6 +27,22 @@ public class JobOfferManagement implements JobOfferManagementLocal,JobOfferManag
 
 	@Override
 	public void create(JobOffer jobOffer) {
+		
+//		 File file = new File(jobOffer.getImage().toString());
+//	        byte[] bFile = new byte[(int) file.length()];
+//	 
+//	        try {
+//	            FileInputStream fileInputStream = new FileInputStream(file);
+//	            fileInputStream.read(bFile);
+//	            fileInputStream.close();
+//	        } catch (Exception e) {
+//	            e.printStackTrace();
+//	        }
+//	        JobOffer j = new JobOffer();
+//	        j=jobOffer;
+//	        j.setName(jobOffer.getName());	        
+//	        j.setImage(jobOffer.getImage());
+	        
 		em.merge(jobOffer);
 		
 	}
@@ -35,12 +55,17 @@ public class JobOfferManagement implements JobOfferManagementLocal,JobOfferManag
 	}
 
 	@Override
-	public JobOffer get(int id) {
-		return em.find(JobOffer.class, id);
+	public JobOffer get(int id) throws ElementNotFoundException {
+		JobOffer jo = em.find(JobOffer.class, id);
+		if (jo == null)
+			throw new ElementNotFoundException("Job Offer Not found");
+		else
+			return jo;
 	}
+	
 
 	@Override
-	public void remove(JobOffer jobOffer) {
+	public void remove(JobOffer jobOffer) throws ElementNotFoundException {
 		jobOffer=get(jobOffer.getId());
 		em.remove(jobOffer);
 		
@@ -79,6 +104,28 @@ public class JobOfferManagement implements JobOfferManagementLocal,JobOfferManag
 	public List<User> getAcceptedUsers(JobOffer jobOffer) {
 		try{
 			return em.createQuery("SELECT ja.client FROM JobOffer jo , JobApply ja WHERE jo.id = ja.offer.id and ja.isAccepted =  true and ja.offer = :offer", User.class).setParameter("offer", jobOffer).getResultList();
+			}catch (NoResultException e){
+				return null;
+			}
+	}
+
+	@Override
+	public List<JobOffer> getNewestJobOffers() {
+		try{
+			return em.createQuery("SELECT jo FROM JobOffer jo "				
+					+ " ORDER BY jo.creationDate DESC", JobOffer.class)
+					.setMaxResults(6).getResultList();
+			}catch (NoResultException e){
+				return null;
+			}
+		
+		
+	}
+
+	@Override
+	public List<JobOffer> getJobOffersBycategory(String Category) {
+		try{
+			return em.createQuery("SELECT jo FROM JobOffer jo WHERE jo.jobOfferCategory ='" + JobOfferCategory.valueOf(Category).name() +"' ORDER BY jo.creationDate DESC", JobOffer.class).setMaxResults(4).getResultList();
 			}catch (NoResultException e){
 				return null;
 			}
