@@ -1,15 +1,23 @@
 package tn.codeinc.webservices;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import org.jboss.resteasy.plugins.providers.multipart.InputPart;
+import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.exceptions.BadWordException;
 import tn.codeinc.exceptions.ElementNotFoundException;
@@ -17,6 +25,7 @@ import tn.codeinc.exceptions.EventException;
 import tn.codeinc.persistance.Event;
 import tn.codeinc.persistance.User.UserRole;
 import tn.codeinc.services.EventManagementLocal;
+import tn.codeinc.util.FileUpload;
 import tn.codeinc.util.ResponseMessage;
 
 @Path("/secured/event")
@@ -26,6 +35,11 @@ public class EventSecureService {
 	private EventManagementLocal events;
 	@Inject
 	CurrentUserLocal currentUser;
+	
+	private final String UPLOAD_DIR = "resources\\events";
+	
+	@Context
+	private ServletContext context;
 	
 
 //	@GET
@@ -126,6 +140,32 @@ public class EventSecureService {
 //	public Response invite(Event event){
 //		
 //	}
+	
+	@PUT
+	@Consumes("multipart/form-data")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/uploadPics")
+	
+	public  Response uploadPictures(@HeaderParam("eventId") String id,MultipartFormDataInput input){
+		
+		try {
+			Event e = events.get(Integer.parseInt(id));
+			Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
+			List<InputPart> inputParts = uploadForm.get("uploadedFile");
+			List<String> files = FileUpload.uploadEventPictures(inputParts, this.context.getRealPath(UPLOAD_DIR), e);
+			
+			files.forEach(System.out::println);
+			
+		} catch (NumberFormatException | ElementNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("EventSecureService.uploadPictures() event not found");
+		}
+		
+		
+		return Response.ok().build();
+		
+	}
 	
 	
 }
