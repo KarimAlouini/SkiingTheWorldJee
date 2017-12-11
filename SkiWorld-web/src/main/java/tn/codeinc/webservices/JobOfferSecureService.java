@@ -51,7 +51,7 @@ public class JobOfferSecureService {
 	public Response addMyOffers(JobOffer jo){
 		if (currentUser.get().getRole() != UserRole.ROLE_AGENT)
 			return Response.status(Status.UNAUTHORIZED).build();
-		
+		jo.setAgent(currentUser.get());
 		jobOfferManagementLocal.create(jo);
 		return Response.ok().entity(new ResponseMessage(0,"Added Seccessfully")).build();
 	}

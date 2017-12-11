@@ -26,15 +26,15 @@ public class JobOffer implements Serializable {
 	private Integer id;
 	private Integer numberOfPlaces;
 	private Integer validity;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	
 	private Date startDate;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	
 	private Date endDate;
 	private Double salary;
 	private String description;
 	private String name;
 	private boolean isArchived ;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	
 	private Date creationDate;
 
 	@Enumerated(EnumType.STRING)
@@ -96,7 +96,7 @@ public class JobOffer implements Serializable {
 		this.agent = agent;
 		this.applicationsByClients = new ArrayList<JobApply>();
 		this.offerMessagesOnThisOffer = new ArrayList<OfferMessage>();
-		this.isArchived= isArchived;
+		this.isArchived= false;
 		this.creationDate = new Date();
 	}
 
@@ -106,7 +106,7 @@ public class JobOffer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public JobOffer() {
-		super();
+		this.creationDate = new Date();
 	}
 
 	public Integer getId() {
