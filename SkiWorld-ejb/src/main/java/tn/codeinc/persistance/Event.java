@@ -1,6 +1,5 @@
 package tn.codeinc.persistance;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,13 +13,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Event {
 
 	@Id
@@ -49,8 +48,8 @@ public class Event {
 	@OneToMany(targetEntity = KeyWord.class, fetch = FetchType.EAGER,cascade=CascadeType.ALL)
 	private List<KeyWord> keyword;
 
-	@JsonIgnore
-	@ManyToMany
+	
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<User> users;
 
 	public enum EventType {
@@ -205,7 +204,12 @@ public class Event {
 	}
 	
 	
-	
+	public boolean isFull(){
+		return this.maxPlace == this.users.size();
+	}
+	public boolean hasUser(User u){
+		return this.users.contains(u);
+	}
 	
 
 }

@@ -75,6 +75,27 @@ public class EventSecureService {
 		}
 		return Response.ok().entity(new ResponseMessage(0,"q")).build();
 	}
+	@Path("/apply")
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response applyForEvent(Event event){
+		
+			try {
+				events.applyForEvent(event);
+			} catch (ElementNotFoundException | EventException e) {
+				// TODO Auto-generated catch block
+				return Response.ok().entity(new ResponseMessage(1, e.getMessage())).build();
+			};
+		
+		return Response.ok().entity(new ResponseMessage(0,"q")).build();
+		}
+//	@PUT
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response invite(Event event){
+//		
+//	}
 	
 	@PUT
 	@Consumes("multipart/form-data")
