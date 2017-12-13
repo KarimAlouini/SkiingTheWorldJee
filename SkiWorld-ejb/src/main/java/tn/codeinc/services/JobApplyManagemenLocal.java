@@ -9,6 +9,7 @@ import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.exceptions.JobApplicationDuplicationException;
 import tn.codeinc.persistance.JobApply;
 import tn.codeinc.persistance.JobApplyId;
+import tn.codeinc.persistance.User;
 
 
 @Local	
@@ -19,5 +20,6 @@ public interface JobApplyManagemenLocal {
 	public void remove(JobApply jobApply) throws ElementNotFoundException,AuthorizationException;
 	public void update(JobApply jobApply) throws ElementNotFoundException, AuthorizationException;
 	public JobApply getByDate(Date jobApplyDate);
+	public List<JobApply> getByAgent(User agent);
 
 }

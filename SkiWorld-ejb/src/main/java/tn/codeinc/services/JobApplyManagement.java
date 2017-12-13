@@ -17,6 +17,7 @@ import tn.codeinc.exceptions.JobApplicationDuplicationException;
 import tn.codeinc.persistance.JobApply;
 import tn.codeinc.persistance.JobApplyId;
 import tn.codeinc.persistance.JobOffer;
+import tn.codeinc.persistance.User;
 
 @Stateless
 public class JobApplyManagement implements JobApplyManagemenLocal, JobApplyManagemenRemote {
@@ -91,5 +92,16 @@ public class JobApplyManagement implements JobApplyManagemenLocal, JobApplyManag
 			return null;
 		}
 
+	}
+	@Override
+
+	public List<JobApply> getByAgent(User agent){
+		try{
+			return em.createQuery("SELECT jo FROM JobApply jo WHERE jo.offer.agent = :agent", JobApply.class)
+					.setParameter("agent", agent).getResultList();
+			}catch (NoResultException e){
+				return null;
+			}
+		
 	}
 }

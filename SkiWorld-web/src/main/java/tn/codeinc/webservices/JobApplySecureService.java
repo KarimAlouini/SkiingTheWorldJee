@@ -20,6 +20,7 @@ import tn.codeinc.exceptions.AuthorizationException;
 import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.exceptions.JobApplicationDuplicationException;
 import tn.codeinc.persistance.JobApply;
+import tn.codeinc.persistance.JobApplyId;
 import tn.codeinc.persistance.User.UserRole;
 import tn.codeinc.services.JobApplyManagemenLocal;
 import tn.codeinc.util.ResponseMessage;
@@ -52,6 +53,8 @@ public class JobApplySecureService {
 			return Response.status(Status.UNAUTHORIZED).build();
 
 		try {
+			ja.setClient(currentUser.get());
+			ja.setId(new JobApplyId(ja.getClient().getId(), ja.getOffer().getId()));
 			jobApplyManagemenLocal.create(ja);
 			return Response.ok().entity(new ResponseMessage(0, "Added Seccessfully")).build();
 		} catch (JobApplicationDuplicationException e) {
@@ -101,15 +104,26 @@ public class JobApplySecureService {
 		return Response.ok().entity(new ResponseMessage(0, "This Apply is Updated seccessfully")).build();
 	}
 
-	@Path("/ListbyDate")
+	@Path("/List")
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 
-	public Response ListByDate(Date jaD) {
+	public Response ListByDate(JobApplyId id) {
 		if (currentUser.get().getRole() != UserRole.ROLE_AGENT)
 			return Response.status(Status.UNAUTHORIZED).build();
-		jobApplyManagemenLocal.getByDate(jaD);
+		jobApplyManagemenLocal.get(id);
 		return Response.ok().entity(new ResponseMessage(0, "These are your offers")).build();
+	}
+	@Path("/myApplications")
+	@GET
+	@Consumes (MediaType.APPLICATION_JSON)
+	@Produces (MediaType.APPLICATION_JSON)
+	
+	public Response GetMyApplications(){
+	    if (currentUser.get().getRole() !=UserRole.ROLE_AGENT)
+	    	return Response.status(Status.UNAUTHORIZED).build();
+	    ;
+	    return Response.ok().entity(jobApplyManagemenLocal.getByAgent(currentUser.get())).build();
 	}
 }
