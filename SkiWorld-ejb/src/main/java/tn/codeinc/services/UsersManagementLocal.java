@@ -5,6 +5,7 @@ import javax.ejb.Local;
 import tn.codeinc.exceptions.AuthenticationException;
 import tn.codeinc.exceptions.UserException;
 import tn.codeinc.persistance.AccessToken;
+import tn.codeinc.persistance.Event;
 import tn.codeinc.persistance.User;
 import tn.codeinc.persistance.User.UserRole;
 

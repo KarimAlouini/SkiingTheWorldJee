@@ -60,6 +60,13 @@ public class EventSecureService {
 		return Response.ok().entity(currentUser.get().getMyEvents().stream().distinct().collect(Collectors.toList())).build();
 	}
 	
+	@GET
+	@Path("/myParticipation")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getMyParticiapation() {
+		return Response.ok().entity(currentUser.get().getParticipations().stream().distinct().collect(Collectors.toList())).build();
+	}
+	
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
