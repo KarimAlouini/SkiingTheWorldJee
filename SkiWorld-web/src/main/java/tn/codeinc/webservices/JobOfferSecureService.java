@@ -104,4 +104,17 @@ public class JobOfferSecureService {
 	    ;
 	    return Response.ok().entity(jobOfferManagementLocal.getByAgent(agent)).build();
 	}
+	
+	@Path("/mine")
+	@GET
+	@Consumes (MediaType.APPLICATION_JSON)
+	@Produces (MediaType.APPLICATION_JSON)
+	
+	public Response GetMine(){
+	    if (currentUser.get().getRole() !=UserRole.ROLE_AGENT)
+	    	return Response.status(Status.UNAUTHORIZED).build();
+	    ;
+	    return Response.ok().entity(jobOfferManagementLocal.getByAgent(currentUser.get())).build();
+	}
+	
 }

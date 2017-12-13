@@ -2,6 +2,7 @@ package tn.codeinc.webservices;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -23,6 +24,7 @@ import tn.codeinc.exceptions.BadWordException;
 import tn.codeinc.exceptions.ElementNotFoundException;
 import tn.codeinc.exceptions.EventException;
 import tn.codeinc.persistance.Event;
+import tn.codeinc.persistance.EventImage;
 import tn.codeinc.persistance.User.UserRole;
 import tn.codeinc.services.EventManagementLocal;
 import tn.codeinc.util.FileUpload;
@@ -55,7 +57,7 @@ public class EventSecureService {
 	@Path("/private")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getPrivate() {
-		return Response.ok().entity(currentUser.get().getMyEvents()).build();
+		return Response.ok().entity(currentUser.get().getMyEvents().stream().distinct().collect(Collectors.toList())).build();
 	}
 	
 	@PUT
@@ -73,8 +75,28 @@ public class EventSecureService {
 			// TODO Auto-generated catch block
 			return Response.ok().entity(new ResponseMessage(1, e.getMessage())).build();
 		}
+		return Response.ok().entity(new ResponseMessage(0,event.getId()+"")).build();
+	}
+	
+	@Path("/update")
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response update(Event event) {
+		if (currentUser.get().getRole()!=UserRole.ROLE_USER)
+			return Response.status(Status.UNAUTHORIZED).build();
+		try {
+			events.update(event);
+		} catch (BadWordException e) {
+			// TODO Auto-generated catch block
+			return Response.ok().entity(new ResponseMessage(1, e.getMessage())).build();
+		} catch (EventException e) {
+			// TODO Auto-generated catch block
+			return Response.ok().entity(new ResponseMessage(1, e.getMessage())).build();
+		}
 		return Response.ok().entity(new ResponseMessage(0,"q")).build();
 	}
+	
 	@Path("/apply")
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -89,7 +111,37 @@ public class EventSecureService {
 			};
 		
 		return Response.ok().entity(new ResponseMessage(0,"q")).build();
+	}
+	@Path("/delete")
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteEvent(Event event){
+		try {
+			events.remove(event);
+			return Response.ok().entity(new ResponseMessage(0,"q")).build();
+		} catch (ElementNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return Response.status(Status.BAD_REQUEST).build();
 		}
+	}
+	
+//	@Path("/invite")
+//	@PUT
+//	@Consumes(MediaType.APPLICATION_JSON)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public Response inviteUser(Event event){
+//		
+//			try {
+//				events.invite(eventInvitation);
+//			} catch (ElementNotFoundException | EventException e) {
+//				// TODO Auto-generated catch block
+//				return Response.ok().entity(new ResponseMessage(1, e.getMessage())).build();
+//			};
+//		
+//		return Response.ok().entity(new ResponseMessage(0,"q")).build();
+//		}
 //	@PUT
 //	@Consumes(MediaType.APPLICATION_JSON)
 //	@Produces(MediaType.APPLICATION_JSON)
@@ -105,12 +157,12 @@ public class EventSecureService {
 	public  Response uploadPictures(@HeaderParam("eventId") String id,MultipartFormDataInput input){
 		
 		try {
-			Event e = events.get(Integer.parseInt(id));
+			Event ev = events.get(Integer.parseInt(id));
 			Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 			List<InputPart> inputParts = uploadForm.get("uploadedFile");
-			List<String> files = FileUpload.uploadEventPictures(inputParts, this.context.getRealPath(UPLOAD_DIR), e);
+			String f = FileUpload.uploadEventPic(inputParts, this.context.getRealPath(UPLOAD_DIR), ev);
 			
-			files.forEach(System.out::println);
+			events.addImage(new EventImage(f, ev));
 			
 		} catch (NumberFormatException | ElementNotFoundException e) {
 			// TODO Auto-generated catch block

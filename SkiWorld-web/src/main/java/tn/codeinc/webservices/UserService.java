@@ -15,12 +15,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-
 import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.exceptions.AuthenticationException;
 import tn.codeinc.exceptions.TokenNotExistantException;
 import tn.codeinc.exceptions.UserException;
-import tn.codeinc.persistance.AccessToken;
 import tn.codeinc.persistance.User;
 import tn.codeinc.persistance.User.UserRole;
 import tn.codeinc.services.TokenManagementLocal;
