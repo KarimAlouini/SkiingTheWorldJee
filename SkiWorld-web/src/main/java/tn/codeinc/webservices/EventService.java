@@ -12,6 +12,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.exceptions.ElementNotFoundException;
@@ -46,21 +47,17 @@ public class EventService {
 		} catch (ElementNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return Response.ok().entity(new ResponseMessage(1, e.getMessage())).build();
+			return Response.status(Status.NOT_FOUND).build();
 		}
 	}
-	
-	
-	
+
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response getPublicEventByKW(List<KeyWord> keyWords) {
 
 		return Response.ok().entity(events.getByKeywords(keyWords)).build();
-		
+
 	}
-	
-	
 
 }

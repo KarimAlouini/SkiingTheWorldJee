@@ -9,13 +9,12 @@ import java.util.List;
 
 import javax.ws.rs.core.MultivaluedMap;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 
 import tn.codeinc.persistance.Event;
 import tn.codeinc.persistance.JobApply;
-
-
 
 public class FileUpload {
 
@@ -28,10 +27,9 @@ public class FileUpload {
 				MultivaluedMap<String, String> header = inputPart.getHeaders();
 				String realName = getFileName(header);
 
-				if(realName.equals("unknown")){
+				if (realName.equals("unknown")) {
 					return null;
-				}
-				else{
+				} else {
 					// convert the uploaded file to inputstream
 					InputStream inputStream = inputPart.getBody(InputStream.class, null);
 
@@ -43,21 +41,66 @@ public class FileUpload {
 					if (!uploadFolder.exists())
 						uploadFolder.mkdirs();
 
-					//writeFile(bytes, folder + "\\" + fileName + "." + FilenameUtils.getExtension(realName));
+					// writeFile(bytes, folder + "\\" + fileName + "." +
+					// FilenameUtils.getExtension(realName));
 					writeFile(bytes, folder + "\\" + realName);
 				}
 				return realName;
-				
-				
 
 			} catch (IOException e) {
 				e.printStackTrace();
-				
+
 			}
 
 		}
 		return null;
 	}
+	
+	
+	
+	public static String uploadEventPic(List<InputPart> inputParts, String folder,Event ev) {
+
+		for (InputPart inputPart : inputParts) {
+
+			try {
+
+				MultivaluedMap<String, String> header = inputPart.getHeaders();
+				String realName = getFileName(header);
+
+				if (realName.equals("unknown")) {
+					return null;
+				} else {
+					// convert the uploaded file to inputstream
+					InputStream inputStream = inputPart.getBody(InputStream.class, null);
+
+					byte[] bytes = IOUtils.toByteArray(inputStream);
+
+					// constructs upload file path
+
+					File uploadFolder = new File(folder+"\\"+ev.getId());
+					if (!uploadFolder.exists())
+						uploadFolder.mkdirs();
+					
+					String extension = FilenameUtils.getExtension(realName);
+
+					// writeFile(bytes, folder + "\\" + fileName + "." +
+					// FilenameUtils.getExtension(realName))
+					
+					writeFile(bytes, folder + "\\"+ev.getId()+"\\" + realName);
+					System.out.println("FileUpload.uploadEventPic() "+folder + "\\"+ev.getId()+"\\" + realName);
+				}
+				return realName;
+
+			} catch (IOException e) {
+				e.printStackTrace();
+
+			}
+
+		}
+		return null;
+	}
+	
+	
 
 	private static String getFileName(MultivaluedMap<String, String> header) {
 
@@ -88,9 +131,8 @@ public class FileUpload {
 		fop.close();
 
 	}
-	
-	
-	public static List<String> uploadEventPictures(List<InputPart> inputParts, String folder,Event ev) {
+
+	public static List<String> uploadEventPictures(List<InputPart> inputParts, String folder, Event ev) {
 
 		List<String> fileNames = new ArrayList<>();
 		for (InputPart inputPart : inputParts) {
@@ -100,33 +142,26 @@ public class FileUpload {
 				MultivaluedMap<String, String> header = inputPart.getHeaders();
 				String realName = getFileName(header);
 
-				if(realName.equals("unknown")){
-					return null;
-				}
-				else{
-					// convert the uploaded file to inputstream
-					InputStream inputStream = inputPart.getBody(InputStream.class, null);
+				// convert the uploaded file to inputstream
+				InputStream inputStream = inputPart.getBody(InputStream.class, null);
 
-					byte[] bytes = IOUtils.toByteArray(inputStream);
+				byte[] bytes = IOUtils.toByteArray(inputStream);
 
-					// constructs upload file path
+				// constructs upload file path
 
-					File uploadFolder = new File(folder+"\\"+ev.getId());
-					if (!uploadFolder.exists())
-						uploadFolder.mkdirs();
-					
-					
+				File uploadFolder = new File(folder + "\\" + ev.getId());
+				if (!uploadFolder.exists())
+					uploadFolder.mkdirs();
 
-					//writeFile(bytes, folder + "\\" + fileName + "." + FilenameUtils.getExtension(realName));
-					writeFile(bytes, folder + "\\" + ev.getId()+"\\"+realName);
-				}
+				// writeFile(bytes, folder + "\\" + fileName + "." +
+				// FilenameUtils.getExtension(realName));
+				writeFile(bytes, folder + "\\" + ev.getId() + "\\" + realName);
+
 				fileNames.add(realName);
-				
-				
 
 			} catch (IOException e) {
 				e.printStackTrace();
-				
+
 			}
 
 		}

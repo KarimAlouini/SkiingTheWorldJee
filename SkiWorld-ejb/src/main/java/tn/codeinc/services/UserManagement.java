@@ -8,8 +8,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.ws.rs.core.UriInfo;
-import javax.xml.registry.infomodel.EmailAddress;
 
 import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.exceptions.AuthenticationException;

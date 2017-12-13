@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -32,10 +34,15 @@ public class Event {
 	@NotNull
 	private Date Start;
 	private Date End;
+	@Column(length = 65535,columnDefinition="Text")
 	private String description;
 	private EventType statue;
 	private String Image;
 	private Integer maxPlace;
+	
+	@OneToMany(mappedBy="event",fetch=FetchType.EAGER)
+	
+	private List<EventImage> images;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user", nullable = false)
@@ -211,5 +218,9 @@ public class Event {
 		return this.users.contains(u);
 	}
 	
+	
+	public List<EventImage> getImages() {
+		return images;
+	}
 
 }
