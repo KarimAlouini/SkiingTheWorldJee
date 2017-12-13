@@ -47,7 +47,7 @@ public class AdAreaManagement implements AdAreaManagementLocal, AdAreaManagement
 
 	@Override
 	public void delete(AdArea a) {
-		em.remove(a);
+		em.remove(get(a.getId()));
 
 	}
 

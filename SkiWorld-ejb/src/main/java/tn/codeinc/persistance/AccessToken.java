@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.joda.time.Interval;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
@@ -80,7 +82,8 @@ public class AccessToken {
 	}
 
 	public boolean isValid() {
-		return this.expiresAt.compareTo(new Date()) >= 0;
+		
+		return (this.expiresAt.compareTo(new Date()) >= 0);
 	}
 
 	public void generate() {
