@@ -20,6 +20,7 @@ import tn.codeinc.exceptions.EventException;
 import tn.codeinc.persistance.BadWord;
 import tn.codeinc.persistance.Event;
 import tn.codeinc.persistance.Event.EventType;
+import tn.codeinc.persistance.EventImage;
 import tn.codeinc.persistance.EventInvitation;
 import tn.codeinc.persistance.KeyWord;
 
@@ -54,8 +55,13 @@ public class EventManagement implements EventManagementLocal,EventManagementRemo
 	}
 
 	@Override
-	public void remove(Event event) {
-		em.remove(event);
+	public void remove(Event event) throws ElementNotFoundException {
+		try {
+			em.remove(get(event.getId()));
+		} catch (ElementNotFoundException e) {
+			// TODO Auto-generated catch block
+			throw new ElementNotFoundException("Event not found");
+		}
 		
 	}
 
@@ -151,6 +157,12 @@ public class EventManagement implements EventManagementLocal,EventManagementRemo
 		}
 		
 		return output.stream().collect(Collectors.toList());
+	}
+
+	@Override
+	public void addImage(EventImage image) {
+		em.persist(image);
+		
 	}
 
 }
