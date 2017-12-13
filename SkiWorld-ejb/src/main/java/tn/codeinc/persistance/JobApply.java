@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Entity implementation class for Entity: jobApply
  *
@@ -12,7 +14,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="job_apply")
 
-
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class JobApply implements Serializable {
 	
 	/**
@@ -26,6 +28,15 @@ public class JobApply implements Serializable {
 	private String message ;
 	private Date ApplicationDate;
 	private boolean isAccepted ;
+	private String file;
+	
+	public String getFile() {
+		return file;
+	}
+	
+	public void setFile(String file) {
+		this.file = file;
+	}
 	
 	
 	

@@ -28,7 +28,7 @@ public class AdArea {
 	private String image;
 
 	@JsonIgnore
-	@OneToMany(targetEntity = AdAreaPurchaseRequest.class, mappedBy = "adArea", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@OneToMany(targetEntity = AdAreaPurchaseRequest.class, mappedBy = "adArea", fetch = FetchType.EAGER, orphanRemoval=true)
 	private List<AdAreaPurchaseRequest> purchaseRequests = new ArrayList<>();
 
 	public AdArea() {

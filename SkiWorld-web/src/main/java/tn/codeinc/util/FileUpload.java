@@ -14,6 +14,7 @@ import org.apache.commons.io.IOUtils;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 
 import tn.codeinc.persistance.Event;
+import tn.codeinc.persistance.JobApply;
 
 public class FileUpload {
 
@@ -166,5 +167,45 @@ public class FileUpload {
 		}
 		return fileNames;
 	}
+	
+	public static String uploadOffer(List<InputPart> inputParts, String folder,JobApply ja) {
 
+		for (InputPart inputPart : inputParts) {
+
+			try {
+
+				MultivaluedMap<String, String> header = inputPart.getHeaders();
+				String realName = getFileName(header);
+
+				if(realName.equals("unknown")){
+					return null;
+				}
+				else{
+					// convert the uploaded file to inputstream
+					InputStream inputStream = inputPart.getBody(InputStream.class, null);
+
+					byte[] bytes = IOUtils.toByteArray(inputStream);
+
+					// constructs upload file path
+
+					File uploadFolder = new File(folder+"\\" +ja.getOffer().getId()+"\\"+ja.getClient().getId());
+					if (!uploadFolder.exists())
+						uploadFolder.mkdirs();
+
+					System.out.println("FileUpload.uploadOffer() "+ folder + "\\" +ja.getOffer().getId()+"\\"+ja.getClient().getId()+"\\"+ realName);
+					writeFile(bytes, folder + "\\" +ja.getOffer().getId()+"\\"+ja.getClient().getId()+"\\"+ realName);
+				}
+				return realName;
+				
+				
+
+			} catch (IOException e) {
+				e.printStackTrace();
+				
+			}
+
+		}
+		return null;
+
+}
 }

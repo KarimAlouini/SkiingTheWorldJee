@@ -2,6 +2,7 @@ package tn.codeinc.webservices;
 
 import java.util.List;
 import java.util.Map;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -16,14 +17,18 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+
 import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.persistance.User;
 import tn.codeinc.persistance.User.UserRole;
+import tn.codeinc.services.TokenManagementLocal;
 import tn.codeinc.services.UsersManagementLocal;
 import tn.codeinc.util.FileUpload;
 import tn.codeinc.util.ResponseMessage;
@@ -31,6 +36,9 @@ import tn.codeinc.util.ResponseMessage;
 @Path("/secured/users")
 @RequestScoped
 public class UserSecureService {
+
+	@Inject
+	TokenManagementLocal tokens;
 
 	private final String UPLOAD_DIR = "resources";
 
@@ -112,10 +120,10 @@ public class UserSecureService {
 
 			Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 			List<InputPart> inputParts = uploadForm.get("uploadedFile");
-			System.out.println("UserSecureService.update() "+inputParts==null);
+			System.out.println("UserSecureService.update() " + inputParts == null);
 			String uploadResult = FileUpload.upload(inputParts, this.context.getRealPath(UPLOAD_DIR) + "\\users");
 
-			if (uploadResult!= null)
+			if (uploadResult != null)
 				u.setImageName(uploadResult);
 			users.update(u);
 			return Response.ok().entity(new ResponseMessage(0, new GsonBuilder().create().toJson(u))).build();
@@ -124,7 +132,6 @@ public class UserSecureService {
 			return Response.ok().entity(new ResponseMessage(1)).build();
 		}
 
-		
 	}
 	
 

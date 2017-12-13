@@ -15,7 +15,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-
+import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.exceptions.AuthenticationException;
 import tn.codeinc.exceptions.TokenNotExistantException;
 import tn.codeinc.exceptions.UserException;
@@ -37,6 +37,9 @@ public class UserService {
 	
 	@EJB
 	private TokenManagementLocal tokens;
+	
+	@EJB
+	private CurrentUserLocal currentUser;
 
 	/**
 	 * 
@@ -122,6 +125,33 @@ public class UserService {
 		}
 	}
 	
+	
+	@POST
+	@Path("/validate")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response validateToken(@HeaderParam("token") String token){
+		
+		System.out.println("UserService.validateToken() "+token);
+		
+		AccessToken t = tokens.get(token);
+		if (t== null){
+			
+			return Response.ok().entity(new ResponseMessage(1)).build();
+		}
+		
+		else{
+			if(t.isValid()){
+				
+				return Response.ok().entity(new ResponseMessage(0)).build();
+			}
+		}
+		
+		return Response.ok().entity(new ResponseMessage(2)).build();
+		
+		
+	}
+	
+
 	
 
 }
