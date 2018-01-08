@@ -7,15 +7,11 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
-
+import tn.codeinc.persistance.Course;
 import tn.codeinc.persistance.CourseParticipation;
 import tn.codeinc.persistance.CourseState;
-import tn.codeinc.persistance.Course;
 import tn.codeinc.persistance.Notification;
 import tn.codeinc.persistance.User;
 
