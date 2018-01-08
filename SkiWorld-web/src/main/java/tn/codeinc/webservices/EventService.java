@@ -20,7 +20,6 @@ import tn.codeinc.persistance.Event;
 import tn.codeinc.persistance.Event.EventType;
 import tn.codeinc.persistance.KeyWord;
 import tn.codeinc.services.EventManagementLocal;
-import tn.codeinc.util.ResponseMessage;
 
 @Path("/event")
 @RequestScoped
@@ -34,6 +33,14 @@ public class EventService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllPublic() {
 		List<Event> allEvents = events.getByType(EventType.Public);
+		return Response.ok().entity(allEvents).build();
+	}
+	
+	@Path("/top5")
+	@GET
+	@Produces (MediaType.APPLICATION_JSON)
+	public Response getTop() {
+		List<Event> allEvents = events.getNewestEvent();
 		return Response.ok().entity(allEvents).build();
 	}
 

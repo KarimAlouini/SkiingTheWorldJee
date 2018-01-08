@@ -16,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -39,6 +38,8 @@ public class Event {
 	private EventType statue;
 	private String Image;
 	private Integer maxPlace;
+
+	private Date creationDate;
 	
 	@OneToMany(mappedBy="event",fetch=FetchType.EAGER)
 	
@@ -61,10 +62,6 @@ public class Event {
 
 	public enum EventType {
 		Public, Private
-	}
-
-	public Event() {
-
 	}
 
 	public List<EventInvitation> getEventInvitations() {
@@ -184,6 +181,64 @@ public class Event {
 		this.host = host;
 		this.keyword = keyword;
 	}
+	
+
+	public Event(String name, String location, Date start, Date end, String description, String image, Integer maxPlace,
+			Date creationDate, User host, List<KeyWord> keyword) {
+		super();
+		this.name = name;
+		Location = location;
+		Start = start;
+		End = end;
+		this.description = description;
+		Image = image;
+		this.maxPlace = maxPlace;
+		this.creationDate = new Date();
+		this.host = host;
+		this.keyword = keyword;
+	}
+	
+	
+
+	public Event() {
+		this.creationDate = new Date();
+	}
+
+	public Event(String name, String location, Date start, Date end, String description, EventType statue, String image,
+			Integer maxPlace, Date creationDate, List<EventImage> images, User host, List<KeyWord> keyword) {
+		super();
+		this.name = name;
+		Location = location;
+		Start = start;
+		End = end;
+		this.description = description;
+		this.statue = statue;
+		Image = image;
+		this.maxPlace = maxPlace;
+		this.creationDate = new Date();
+		this.images = images;
+		this.host = host;
+		this.keyword = keyword;
+	}
+
+	public Event(String name, String location, Date start, Date end, String description, EventType statue, String image,
+			Integer maxPlace, Date creationDate, List<EventImage> images, User host, List<KeyWord> keyword,
+			List<User> users) {
+		super();
+		this.name = name;
+		Location = location;
+		Start = start;
+		End = end;
+		this.description = description;
+		this.statue = statue;
+		Image = image;
+		this.maxPlace = maxPlace;
+		this.creationDate = new Date();
+		this.images = images;
+		this.host = host;
+		this.keyword = keyword;
+		this.users = users;
+	}
 
 	@Override
 	public int hashCode() {
@@ -221,6 +276,14 @@ public class Event {
 	
 	public List<EventImage> getImages() {
 		return images;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 }

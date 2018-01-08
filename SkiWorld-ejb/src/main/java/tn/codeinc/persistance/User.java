@@ -43,7 +43,7 @@ public class User implements Serializable {
 	private List<Event> myEvents;
 	
 	@JsonIgnore
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Event> myParticipation;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
