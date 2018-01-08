@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -37,7 +38,7 @@ public class Course implements Serializable{
 	@ManyToOne(fetch=FetchType.EAGER,cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	private User guide;
 	@OneToOne
-	private CourseNotification notification;
+	private Notification notification;
 	
 	
 	@OneToMany(mappedBy="course",fetch=FetchType.EAGER, cascade=CascadeType.REMOVE)
@@ -47,6 +48,9 @@ public class Course implements Serializable{
 	@OneToMany(mappedBy="course",fetch=FetchType.EAGER,cascade=CascadeType.REMOVE)
 	@JsonIgnore
 	private List<CourseParticipation> participant;
+	@OneToMany(mappedBy="course",fetch=FetchType.EAGER,cascade=CascadeType.REMOVE)
+	@JsonIgnore
+	private List<Evaluation> evals;
 	public Course() {
 		super();
 		participant= new ArrayList<>();
@@ -55,7 +59,7 @@ public class Course implements Serializable{
 	
 	
 	public Course(int courseID, String courseName, CourseLevel courseLevel, Date date, Double price,
-			int maxParticipants, CourseState courseState, String location, User guide, CourseNotification notification,
+			int maxParticipants, CourseState courseState, String location, User guide, Notification notification,
 			List<CourseReview> reviews, List<CourseParticipation> participant) {
 		super();
 		this.courseID = courseID;
@@ -142,12 +146,12 @@ public class Course implements Serializable{
 	}
 
 
-	public CourseNotification getNotification() {
+	public Notification getNotification() {
 		return notification;
 	}
 
 
-	public void setNotification(CourseNotification notification) {
+	public void setNotification(Notification notification) {
 		this.notification = notification;
 	}
 	

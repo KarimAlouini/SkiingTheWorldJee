@@ -1,12 +1,17 @@
 package tn.codeinc.services;
 
 import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.persistance.CourseParticipation;
 import tn.codeinc.persistance.CourseState;
+import tn.codeinc.persistance.Course;
 
 /**
  * Session Bean implementation class CourseReservationsManagement
@@ -30,34 +35,8 @@ public class CourseReservationsManagement implements CourseReservationsManagemen
 
 	@Override
 	public String addReservation(CourseParticipation reservation) {
-		
-	/*if (reservation.getCourse().getCourseState() == CourseState.AVAILABLE){
-		System.out.println("boucle1");
-		
-			if((reservation.getCourse().getMaxParticipants()-reservation.getCourse().getParticipant().size())>0){
-				System.out.println("boucle2");
-				if((reservation.getCourse().getMaxParticipants()-reservation.getCourse().getParticipant().size())>reservation.getParticipationPK().getNbrPlaces()){
-					System.out.println("places dispo :"+(reservation.getCourse().getMaxParticipants()-reservation.getCourse().getParticipant().size()));
-					pc.getEM().persist(reservation);
-					System.out.println("Reservation added succesfully");
-					return "Reservation added succesfully";
-				}
-				else{
-					System.out.println("There is no enough places to reserve");
-					return "There is no enough places to reserve  ";
-				}
-			}
-			else{
-				
-				reservation.getCourse().setCourseState(CourseState.FULL);
-				System.out.println("This class is full");
-				return "This class is full";
-			}
-		}else{
-			System.out.println("This course is no longer available");
-			return "This course is no longer available";
-		}*/
-	
+		Course c=courseM.findCourseByID(reservation.getCourse().getCourseID());
+		reservation.setCourse(c);
 	if (reservation.getCourse().getCourseState() == CourseState.AVAILABLE){
 		if((reservation.getCourse().getMaxParticipants()-reservation.getCourse().getParticipant().size())>0){
 			System.out.println("aaaaa"+reservation.getCourse().getParticipant().size());
@@ -66,22 +45,14 @@ public class CourseReservationsManagement implements CourseReservationsManagemen
 				reservation.setCourse(courseM.findCourseByID(reservation.getCourse().getCourseID()));
 				reservation.setUser(currentUser.get());
 				System.out.println("avant"+reservation.getCourse().getParticipant().size());
+				pc.getEM().persist(reservation);
 				for(int i=0;i<reservation.getParticipationPK().getNbrPlaces();i++){
-					(courseM.findCourseByID(reservation.getCourse().getCourseID())).getParticipant().add(reservation);
-					
-					pc.getEM().persist(reservation);
-					
+					c.getParticipant().add(reservation);
+					//(courseM.findCourseByID(reservation.getCourse().getCourseID())).getParticipant().add(reservation);
 					System.out.println(reservation.getCourse().getParticipant().add(reservation));
-					
-				
-					//reservation.getCourse().setParticipant(reservation.getCourse().getParticipant());
 				}
-				pc.getEM().merge(reservation);
-				 CourseManagement cm=new CourseManagement();
-				// cm.addP(reservation);
+				//pc.getEM().merge(reservation);
 				System.out.println("apres"+reservation.getCourse().getParticipant().size());
-				//System.out.println(reservation.getCourse().getParticipant().size());
-				
 				System.out.println("Reservation added succesfully");
 				if(((reservation.getCourse().getMaxParticipants()-reservation.getCourse().getParticipant().size())-reservation.getParticipationPK().getNbrPlaces() )==0){
 					reservation.getCourse().setCourseState(CourseState.FULL);
@@ -91,7 +62,6 @@ public class CourseReservationsManagement implements CourseReservationsManagemen
 				else{
 					return " ";
 				}
-			 //return "Reservation added succesfully";
 			}
 			else{
 				System.out.println("There is no enough places to reserve");
@@ -99,10 +69,8 @@ public class CourseReservationsManagement implements CourseReservationsManagemen
 			}
 		}
 		else{
-			//reservation.getCourse().setCourseState(CourseState.FULL);
 			System.out.println("This class is full");
 			return "This class is full";
-			
 		}
 	}
 	else{

@@ -12,7 +12,6 @@
 		<class>tn.codeinc.persistance.Agency</class>
 		<class>tn.codeinc.persistance.Chalet</class>
 		<class>tn.codeinc.persistance.Coordinates</class>
-		<class>tn.codeinc.persistance.Course</class>
 		<class>tn.codeinc.persistance.CourseNotification</class>
 		<class>tn.codeinc.persistance.CourseParticipation</class>
 		<class>tn.codeinc.persistance.CourseReview</class>

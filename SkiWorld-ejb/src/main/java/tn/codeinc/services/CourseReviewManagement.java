@@ -15,7 +15,7 @@ import tn.codeinc.persistance.CourseState;
  */
 @Stateless
 @LocalBean
-public class CourseReviewManagement implements CourseReviewManagementRemote{
+public class CourseReviewManagement implements CourseReviewManagementRemote,CourseReviewManagementLocal{
 	@PersistenceContext
 	EntityManager em;
     /**
@@ -102,9 +102,10 @@ public class CourseReviewManagement implements CourseReviewManagementRemote{
 
 
 	@Override
-	public CourseReview findReviewByID(int id) {
+	public CourseReview findReviewByID(int a,int b, int c ) {
 		// TODO Auto-generated method stub
-		return em.find(CourseReview.class, id);
+		return (CourseReview) em.createQuery
+				("select r FROM CourseReview r where courseID="+a+" and reviewID="+b+" and userID="+c).getSingleResult();
 	}
 
 	@Override

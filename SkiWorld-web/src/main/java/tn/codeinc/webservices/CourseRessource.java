@@ -14,8 +14,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import tn.codeinc.persistance.Course;
+import tn.codeinc.persistance.apply;
 import tn.codeinc.services.CourseManagement;
 import tn.codeinc.services.NotificationManagement;
+import tn.codeinc.services.applyManagement;
 
 
 @RequestScoped
@@ -24,79 +26,111 @@ public class CourseRessource {
 	@EJB
 	CourseManagement courseM;
 	NotificationManagement nm;
+	@EJB
+	applyManagement app;
 	
 	
-	@POST
-	@Path("/addCourse")
-	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createCourse(Course course) {
-		courseM.addCourse(course);
-		
-		return Response.status(200).build();
-		//return Response.status(Status.CREATED).entity(courseMetier.addCourse(course)).build();
-	}
+	
 	@GET
-	@Path("/getAllCourses")
+	@Path("/getAll")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Course> GetAllCourses() {
 		return courseM.listAllCourse();
 	}
 	@GET
-	@Path("/getCourseByLocation/{location}")
+	@Path("/getByLocation/{location}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Course> GetCourseByLocation(@PathParam(value = "location") String location) {
 		return courseM.findCourseByLocation(location);
 	}
 	@GET
-	@Path("/getCourseByLevel/{level}")
+	@Path("/getByLevel/{level}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Course> GetCourseByLevel(@PathParam(value = "level") String level) {
 		return courseM.findCourseByLevel(level);
 	}
 	@GET
-	@Path("/getCourseById/{id}")
+	@Path("/getById/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Course GetCourseById(@PathParam(value = "id") int id) {
 		return courseM.findCourseByID(id);
 	}
 	@GET
-	@Path("/getCourseByState/{state}")
+	@Path("/getByState/{state}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Course> GetCourseByState(@PathParam(value = "state") String state) {
 		return courseM.findCourseByState(state);
 	}
 	@GET
-	@Path("/getCourseByDate/{date}")
+	@Path("/getByDate/{date}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Course> GetCourseByDate(@PathParam(value = "date") Date date) {
 		return courseM.findCourseByDate(date);
 	}
-	@PUT
-	@Path("/deleteCourse/{id}")
+	@POST
+	@Path("/add")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public String DeleteCourse(@PathParam(value = "id") int id) {
+	public Response createCourse(Course course) {
+		courseM.addCourse(course);
+		return Response.ok("New course has been created").build();
+		//return Response.status(Status.CREATED).entity(courseMetier.addCourse(course)).build();
+	}
+	@PUT
+	@Path("/delete/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response DeleteCourse(@PathParam(value = "id") int id) {
+		
 		courseM.deleteCourse(id); 
 		EchoServer.notif="";
 		for(int i=0;i<courseM.listNotif().size();i++){
 			EchoServer.notif+=courseM.listNotif().get(i).toString();
 		}
+		return Response.ok("Course " + courseM.findCourseByID(id).getCourseName() + " is deleted").build();
 		
-		return "Course " + courseM.findCourseByID(id).getCourseName() + " is deleted";
 	}
 	@PUT
-	@Path("/updateCourse/{id}")
+	@Path("/update")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateCourse(Course course) {
 		courseM.updateCourse(course);
-		
-		return Response.status(200).build();
+		return Response.ok("Course updated successfully").build();
+		//return Response.status(Status.CREATED).entity(courseMetier.addCourse(course)).build();
+	}
+	@POST
+	@Path("/apply")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response apply(apply apply) {
+		app.addCourse(apply);
+		return Response.ok("New course has been created").build();
 		//return Response.status(Status.CREATED).entity(courseMetier.addCourse(course)).build();
 	}
 	@GET
-	@Path("/stat")
+	@Path("/getapp")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List stat() {
-		return courseM.Stat();
+	public List<apply> GetAll() {
+		return app.getAll();
 	}
+	@GET
+	@Path("/gets1")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Integer Gets1() {
+		return courseM.getl1();
+	}
+	@GET
+	@Path("/gets2")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Integer Gets2() {
+		return courseM.getl2();
+	}
+	@GET
+	@Path("/gets3")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Integer Gets3() {
+		return courseM.getl3();
+	}
+	
+	
+	
+	
 
 }  

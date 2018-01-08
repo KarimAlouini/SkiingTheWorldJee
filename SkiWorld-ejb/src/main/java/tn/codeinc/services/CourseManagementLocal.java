@@ -3,11 +3,13 @@ package tn.codeinc.services;
 
 import java.util.Date;
 import java.util.List;
+
 import javax.ejb.Local;
 import javax.ejb.Remote;
+
 import tn.codeinc.persistance.CourseParticipation;
 import tn.codeinc.persistance.Course;
-import tn.codeinc.persistance.CourseNotification;
+import tn.codeinc.persistance.Notification;
 
 @Local
 public interface CourseManagementLocal {
@@ -21,6 +23,6 @@ public interface CourseManagementLocal {
 	public List<Course> findCourseByState(String state);
 	public List<Course> listAllCourse();
 	public List Stat();
-	public List<CourseNotification> listNotif();
+	public List<Notification> listNotif();
 	public void addP(CourseParticipation p);
 }
