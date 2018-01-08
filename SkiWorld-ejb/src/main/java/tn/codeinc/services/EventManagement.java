@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.joda.time.Interval;
@@ -163,6 +164,17 @@ public class EventManagement implements EventManagementLocal,EventManagementRemo
 	public void addImage(EventImage image) {
 		em.persist(image);
 		
+	}
+
+	@Override
+	public List<Event> getNewestEvent() {
+		try{
+			return em.createQuery("SELECT e FROM Event e "				
+					+ " ORDER BY e.creationDate DESC", Event.class)
+					.setMaxResults(6).getResultList();
+			}catch (NoResultException e){
+				return null;
+			}
 	}
 
 

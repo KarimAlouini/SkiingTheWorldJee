@@ -1,10 +1,7 @@
 package tn.codeinc.services;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;

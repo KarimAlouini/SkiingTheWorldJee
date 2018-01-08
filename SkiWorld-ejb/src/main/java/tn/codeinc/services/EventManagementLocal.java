@@ -26,5 +26,6 @@ public interface EventManagementLocal {
 	void applyForEvent(Event event) throws ElementNotFoundException, EventException;
 	void invite(EventInvitation eventInvitation) throws ElementNotFoundException;
 	public void addImage(EventImage image);
+	public List<Event> getNewestEvent();
 
 }

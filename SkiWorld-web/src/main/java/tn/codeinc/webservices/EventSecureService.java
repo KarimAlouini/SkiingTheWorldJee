@@ -77,7 +77,7 @@ public class EventSecureService {
 			events.create(event);
 		} catch (BadWordException e) {
 			// TODO Auto-generated catch block
-			return Response.ok().entity(new ResponseMessage(1, e.getMessage())).build();
+			return Response.status(Status.BAD_REQUEST).entity(new ResponseMessage(1, e.getMessage())).build();
 		} catch (EventException e) {
 			// TODO Auto-generated catch block
 			return Response.ok().entity(new ResponseMessage(1, e.getMessage())).build();
