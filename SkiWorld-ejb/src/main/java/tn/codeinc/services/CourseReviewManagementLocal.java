@@ -13,7 +13,7 @@ public interface CourseReviewManagementLocal {
 	public void deleteReview(int x,int y,int z);
 	public String updateReview(CourseReview review);
 	public List<CourseReview> findReviewByCourse(String courseName);
-	public CourseReview findReviewByID(int id);
+	public CourseReview findReviewByID(int a,int b, int c );
 	public List<CourseReview> findReviewByParticipant(String participantName);
 	public List<CourseReview> findReviewByRate(int rate);
 	public List<CourseReview> listAllReviews();

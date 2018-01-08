@@ -1,6 +1,7 @@
 package tn.codeinc.webservices;
 
 import java.util.List;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
@@ -13,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import tn.codeinc.persistance.CourseReview;
 import tn.codeinc.services.CourseReviewManagement;
 
@@ -22,7 +24,7 @@ public class CourseReviewRessource {
 	@EJB
 	CourseReviewManagement reviewM;
 	@POST
-	@Path("/addReview")
+	@Path("/add")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createReview(CourseReview review) {
 		reviewM.addReview(review);
@@ -31,7 +33,7 @@ public class CourseReviewRessource {
 		//return Response.status(Status.CREATED).entity(courseMetier.addCourse(course)).build();
 	}
 	@PUT
-	@Path("/updateReview")
+	@Path("/update")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateReview(CourseReview review) {
 		reviewM.updateReview(review);
@@ -40,38 +42,38 @@ public class CourseReviewRessource {
 		//return Response.status(Status.CREATED).entity(courseMetier.addCourse(course)).build();
 	}
 	@GET
-	@Path("/getReviewById/{id}")
+	@Path("/getById/{e}/{f}/{g}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public CourseReview GetReviewById(@PathParam(value = "id") int id) {
-		return reviewM.findReviewByID(id);
+	public CourseReview GetReviewById(@PathParam("e") int x,@PathParam("f") int y,@PathParam("g") int z) {
+		return reviewM.findReviewByID(x,y,z);
 	}
 	@GET
-	@Path("/getReviewByCourse/{courseName}")
+	@Path("/getByCourse/{courseName}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<CourseReview> GetReviewByCourse(@PathParam(value = "courseName") String courseName) {
 		return reviewM.findReviewByCourse(courseName);
 	}
 	@GET
-	@Path("/getReviewByRate/{rate}")
+	@Path("/getByRate/{rate}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<CourseReview> GetCourseByRate(@PathParam(value = "rate") int rate) {
 		return reviewM.findReviewByRate(rate);
 	}
 	@GET
-	@Path("/getReviewByParticipant/{participantName}")
+	@Path("/getByParticipant/{participantName}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<CourseReview> GetReviewByParticipant(@PathParam(value = "participantName") String participantName) {
 		return reviewM.findReviewByParticipant(participantName);
 	}
 	@GET
-	@Path("/getAllReviews")
+	@Path("/getAll")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<CourseReview> GetAllReviews() {
 		return reviewM.listAllReviews();
 	}
 	
 	@DELETE
-	@Path("/deleteReview/{e}/{f}/{g}")
+	@Path("/delete/{e}/{f}/{g}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response deleteReview(@PathParam("e") int x,@PathParam("f") int y,@PathParam("g") int z) {
 

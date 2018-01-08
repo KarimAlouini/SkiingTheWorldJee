@@ -3,14 +3,20 @@ package tn.codeinc.services;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+
+import com.itextpdf.text.pdf.PdfStructTreeController.returnType;
+
 import tn.codeinc.persistance.CourseParticipation;
 import tn.codeinc.persistance.CourseState;
 import tn.codeinc.persistance.Course;
-import tn.codeinc.persistance.CourseNotification;
+import tn.codeinc.persistance.Notification;
 import tn.codeinc.persistance.User;
 
 
@@ -19,13 +25,13 @@ import tn.codeinc.persistance.User;
  * Session Bean implementation class CourseManagement
  */
 @Stateless
-@LocalBean
+@LocalBean// no interface view 
 public class CourseManagement implements CourseManagementRemote, CourseManagementLocal{
 	
 	List<CourseParticipation> lst;
 	List<User> user;
 	NotificationManagement notifM=new  NotificationManagement();
-	CourseNotification notif= new CourseNotification();
+	Notification notif= new Notification();
 	@Inject
 	UsersManagementLocal userM;
 	
@@ -48,8 +54,9 @@ public class CourseManagement implements CourseManagementRemote, CourseManagemen
 			course.setReviews(null);
 			course.setParticipant(null);
 			course.setNotification(null);
+			//reservation.setCourse(courseM.findCourseByID(reservation.getCourse().getCourseID()));
 			course.setGuide(userM.get(course.getGuide().getId()));
-			pc.getEM().merge(course);
+			//pc.getEM().merge(course);
 			pc.getEM().persist(course);
 			
 			return "Course added succesfully";
@@ -154,10 +161,21 @@ public class CourseManagement implements CourseManagementRemote, CourseManagemen
 		List rl =new ArrayList();
 		rl = pc.getEM().createQuery
 //("Select o.courseName as Name ,(count(o.courseName)*100)/(select count(o.courseID) from Courses o )as nbr from Courses o where o.courseID IN (Select r.course.courseID  from CourseReview r  ) GROUP BY o.courseName ").getResultList();
-		("SELECT r.course.courseName, AVG(r.rate) from CourseReview r  GROUP by r.reviewPK.courseID").getResultList();
+		("SELECT concat('CourseID:',c.courseID),concat('Course Name:', c.courseName), Concat( ( sum(r.rate))/(select (count (rate)) from CourseReview r where r.reviewPK.courseID=c.courseID ),'%') as pourcentage "
+				+ "from Courses c, CourseReview r where r.reviewPK.courseID=c.courseID group by c.courseID  "
+				+ "order by pourcentage").getResultList();
 				//("select c.courseName , (count(r.rate)*100)/(select count(r.course.courseID) from CourseReview r ) from Courses c  group by  r.course.courseID  ").getResultList();
 		return rl;
 		
+		
+		/*SELECT  o.offer_type, CONCAT(   ((COUNT(r.id))*100)/(Select count (id) from Reclamation r),'%' ) 
+		as pourcentage FROM Offer o,Reclamation r where o.IdOffer in (Select r.offre from Reclamation)
+		group by o.offer_type order by pourcentage desc*/
+		//"SELECT r.course.courseName, AVG(r.rate) from CourseReview r  GROUP by r.reviewPK.courseID"
+		
+		//"SELECT concat('CourseID:',c.courseID),concat('Course Name:', c.courseName), Concat( ( AVG(r.rate))/(select (count (rate)/10) from CourseReview r where r.reviewPK.courseID=c.courseID ),'%') as pourcentage "
+		//+ "from Courses c, CourseReview r where r.reviewPK.courseID=c.courseID group by c.courseID  "
+		//+ "order by pourcentage"
 	}
 
 	@Override
@@ -173,10 +191,34 @@ public class CourseManagement implements CourseManagementRemote, CourseManagemen
 	}
 
 	@Override
-	public List<CourseNotification> listNotif() {
+	public List<Notification> listNotif() {
 			String requete = "SELECT n FROM Notification n";
-			return pc.getEM().createQuery(requete,CourseNotification.class).getResultList();
+			return pc.getEM().createQuery(requete,Notification.class).getResultList();
 		
+	}
+
+	@Override
+	public Integer getl1() {
+		List rl =new ArrayList();
+		 String state="Cours_Collectifs";
+		rl=  pc.getEM().createQuery("SELECT c FROM Courses c WHERE c.courseLevel LIKE '%" + state + "%'").getResultList();
+			return rl.size();        
+	}
+
+	@Override
+	public Integer getl2() {
+		List rl =new ArrayList();
+		 String state="Atelier_Technique";
+		 rl=  pc.getEM().createQuery("SELECT c FROM Courses c WHERE c.courseLevel LIKE '%" + state + "%'").getResultList();
+			return rl.size(); 
+	}
+
+	@Override
+	public Integer getl3() {
+		List rl =new ArrayList();
+		 String state="Cours_Particuliers";
+		 rl=  pc.getEM().createQuery("SELECT c FROM Courses c WHERE c.courseLevel LIKE '%" + state + "%'").getResultList();
+			return rl.size(); 
 	}
 
 	
