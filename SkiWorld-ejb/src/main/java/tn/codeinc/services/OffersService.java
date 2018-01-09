@@ -203,6 +203,11 @@ public class OffersService implements OffersInterfaceLocal, OffersInterfaceRemot
 	}
 	
 
+	public Lodging findLodgingById(int id){
+		
+		return em.find(Lodging.class, id);
+	}
+	
 
 
 }

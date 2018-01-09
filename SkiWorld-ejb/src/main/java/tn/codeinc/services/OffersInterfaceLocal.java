@@ -21,5 +21,5 @@ public interface OffersInterfaceLocal  {
 	public void addLodging (Lodging l) throws ParseException;
 	public List<Lodging> getLodging();
 	public String updateLodging(Lodging l);
-		
+	public Lodging findLodgingById(int id);	
 }
