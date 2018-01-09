@@ -19,7 +19,7 @@ public class CourseNotification  implements Serializable{
 	private User user;
 	private String msg;
 	@OneToOne
-	private Course course;
+	private Courses course;
 	
 	public CourseNotification() {
 		super();
@@ -27,7 +27,7 @@ public class CourseNotification  implements Serializable{
 	
 	
 	
-	public CourseNotification(int id, User user, String msg, Course course) {
+	public CourseNotification(int id, User user, String msg, Courses course) {
 		super();
 		this.id = id;
 		this.user = user;
@@ -66,13 +66,13 @@ public class CourseNotification  implements Serializable{
 		this.id = id;
 	}
 	
-	public Course getCourse() {
+	public Courses getCourse() {
 		return course;
 	}
 
 
 
-	public void setCourse(Course course) {
+	public void setCourse(Courses course) {
 		this.course = course;
 	}
 

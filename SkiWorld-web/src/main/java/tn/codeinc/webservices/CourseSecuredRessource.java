@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import tn.codeinc.client.CurrentUserLocal;
-import tn.codeinc.persistance.Course;
+import tn.codeinc.persistance.Courses;
 import tn.codeinc.persistance.User.UserRole;
 import tn.codeinc.services.CourseManagement;
 import tn.codeinc.services.NotificationManagement;
@@ -33,7 +33,7 @@ public class CourseSecuredRessource {
 	@POST
 	@Path("/add")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createCourse(Course course) {
+	public Response createCourse(Courses course) {
 		if( !(currentUser.get().getRole() == UserRole.ROLE_GUIDE) ){
 			return Response.status(Status.UNAUTHORIZED).build();
 		}
@@ -61,7 +61,7 @@ public class CourseSecuredRessource {
 	@PUT
 	@Path("/update/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response updateCourse(Course course) {
+	public Response updateCourse(Courses course) {
 		if( !(currentUser.get().getRole() == UserRole.ROLE_GUIDE) ){
 			return Response.status(Status.UNAUTHORIZED).build();
 		}

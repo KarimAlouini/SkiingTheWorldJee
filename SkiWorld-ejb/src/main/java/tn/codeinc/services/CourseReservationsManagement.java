@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
 import tn.codeinc.client.CurrentUserLocal;
 import tn.codeinc.persistance.CourseParticipation;
 import tn.codeinc.persistance.CourseState;
-import tn.codeinc.persistance.Course;
+import tn.codeinc.persistance.Courses;
 
 /**
  * Session Bean implementation class CourseReservationsManagement
@@ -35,7 +35,7 @@ public class CourseReservationsManagement implements CourseReservationsManagemen
 
 	@Override
 	public String addReservation(CourseParticipation reservation) {
-		Course c=courseM.findCourseByID(reservation.getCourse().getCourseID());
+		Courses c=courseM.findCourseByID(reservation.getCourse().getCourseID());
 		reservation.setCourse(c);
 	if (reservation.getCourse().getCourseState() == CourseState.AVAILABLE){
 		if((reservation.getCourse().getMaxParticipants()-reservation.getCourse().getParticipant().size())>0){

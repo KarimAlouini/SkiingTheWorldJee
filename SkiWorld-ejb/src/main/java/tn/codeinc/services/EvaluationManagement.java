@@ -9,7 +9,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import tn.codeinc.persistance.Course;
+import tn.codeinc.persistance.Courses;
 import tn.codeinc.persistance.Evaluation;
 
 /**

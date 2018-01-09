@@ -26,7 +26,7 @@ public class Evaluation implements Serializable {
 	private int IdUser;
 
 	@ManyToOne
-	private Course course;
+	private Courses course;
 	public float getValue() {
 		return value;
 	}
@@ -34,10 +34,10 @@ public class Evaluation implements Serializable {
 		this.value = value;
 	}
 	
-	public Course getCourse() {
+	public Courses getCourse() {
 		return course;
 	}
-	public void setCourse(Course course) {
+	public void setCourse(Courses course) {
 		this.course = course;
 	}
 	public int getIdUser() {

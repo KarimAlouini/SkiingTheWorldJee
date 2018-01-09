@@ -10,13 +10,17 @@
 		<class>tn.codeinc.persistance.AdAreaPurchaseRequestId</class>
 		<class>tn.codeinc.persistance.Address</class>
 		<class>tn.codeinc.persistance.Agency</class>
+		<class>tn.codeinc.persistance.BadWord</class>
 		<class>tn.codeinc.persistance.Chalet</class>
 		<class>tn.codeinc.persistance.Coordinates</class>
 		<class>tn.codeinc.persistance.CourseNotification</class>
 		<class>tn.codeinc.persistance.CourseParticipation</class>
 		<class>tn.codeinc.persistance.CourseReview</class>
+		<class>tn.codeinc.persistance.Courses</class>
 		<class>tn.codeinc.persistance.Establishment</class>
+		<class>tn.codeinc.persistance.Evaluation</class>
 		<class>tn.codeinc.persistance.Event</class>
+		<class>tn.codeinc.persistance.EventImage</class>
 		<class>tn.codeinc.persistance.EventInvitation</class>
 		<class>tn.codeinc.persistance.EventIvitationId</class>
 		<class>tn.codeinc.persistance.JobApply</class>
@@ -24,11 +28,13 @@
 		<class>tn.codeinc.persistance.JobOffer</class>
 		<class>tn.codeinc.persistance.KeyWord</class>
 		<class>tn.codeinc.persistance.Lodging</class>
+		<class>tn.codeinc.persistance.Notification</class>
 		<class>tn.codeinc.persistance.Offer</class>
 		<class>tn.codeinc.persistance.OfferMessage</class>
 		<class>tn.codeinc.persistance.OfferMessageId</class>
 		<class>tn.codeinc.persistance.OfferRating</class>
 		<class>tn.codeinc.persistance.ParticipationPK</class>
+		<class>tn.codeinc.persistance.Product</class>
 		<class>tn.codeinc.persistance.Questions</class>
 		<class>tn.codeinc.persistance.RechargingCoupon</class>
 		<class>tn.codeinc.persistance.Reservation</class>
@@ -36,9 +42,11 @@
 		<class>tn.codeinc.persistance.ResortToken</class>
 		<class>tn.codeinc.persistance.ReviewPK</class>
 		<class>tn.codeinc.persistance.Seller</class>
+		<class>tn.codeinc.persistance.SousCategorie</class>
 		<class>tn.codeinc.persistance.Test</class>
 		<class>tn.codeinc.persistance.TestLevel</class>
 		<class>tn.codeinc.persistance.User</class>
+		<class>tn.codeinc.persistance.apply</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			

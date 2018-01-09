@@ -9,7 +9,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
-import tn.codeinc.persistance.Course;
+import tn.codeinc.persistance.Courses;
 import tn.codeinc.persistance.CourseParticipation;
 import tn.codeinc.persistance.CourseState;
 import tn.codeinc.persistance.Notification;
@@ -43,7 +43,7 @@ public class CourseManagement implements CourseManagementRemote, CourseManagemen
 	
     @Transactional
 	@Override
-	public String addCourse(Course course) {
+	public String addCourse(Courses course) {
 
 		try {
 			course.setCourseState(CourseState.AVAILABLE);
@@ -67,7 +67,7 @@ public class CourseManagement implements CourseManagementRemote, CourseManagemen
 		
 		try {
 			
-				Course course=	pc.getEM().find(Course.class, id);	
+				Courses course=	pc.getEM().find(Courses.class, id);	
 				course.setCourseState(CourseState.CANCELLED);
 				pc.getEM().merge(course);
 			lst=pc.getEM().createQuery("SELECT r FROM CourseParticipation r WHERE courseID = "+id)
@@ -94,7 +94,7 @@ public class CourseManagement implements CourseManagementRemote, CourseManagemen
 	}
 
 	@Override
-	public String updateCourse(Course course) {
+	public String updateCourse(Courses course) {
 		try {
 			pc.getEM().merge(course);
 			return "Course updated with success";
@@ -105,51 +105,51 @@ public class CourseManagement implements CourseManagementRemote, CourseManagemen
 	}
 
 	@Override
-	public List<Course> findCourseByLevel(String level) {
-		List<Course> listCourses;
+	public List<Courses> findCourseByLevel(String level) {
+		List<Courses> listCourses;
 
-		listCourses = pc.getEM().createQuery("SELECT c FROM Courses c WHERE c.courseLevel LIKE '%" + level + "%'", Course.class)
+		listCourses = pc.getEM().createQuery("SELECT c FROM Courses c WHERE c.courseLevel LIKE '%" + level + "%'", Courses.class)
 				.getResultList();
 		return listCourses;
 	}
 
 	@Override
-	public List<Course> findCourseByLocation(String location) {
-		List<Course> listCourses;
+	public List<Courses> findCourseByLocation(String location) {
+		List<Courses> listCourses;
 
-		listCourses = pc.getEM().createQuery("SELECT c FROM Courses c WHERE c.location LIKE '%" + location + "%'", Course.class)
+		listCourses = pc.getEM().createQuery("SELECT c FROM Courses c WHERE c.location LIKE '%" + location + "%'", Courses.class)
 				.getResultList();
 		return listCourses;
 	}
 
 	@Override
-	public List<Course> findCourseByDate(Date date) {
+	public List<Courses> findCourseByDate(Date date) {
 		
 		   	 return pc.getEM().createQuery(
-				        "SELECT c FROM Courses c WHERE c.date = :date",Course.class)
+				        "SELECT c FROM Courses c WHERE c.date = :date",Courses.class)
 				        .setParameter("date", date).getResultList(); 
 	}
 
 	@Override
-	public List<Course> findCourseByState(String state) {
-		List<Course> listCourses;
+	public List<Courses> findCourseByState(String state) {
+		List<Courses> listCourses;
 
-		listCourses = pc.getEM().createQuery("SELECT c FROM Courses c  WHERE c.courseState LIKE '%" + state + "%'", Course.class)
+		listCourses = pc.getEM().createQuery("SELECT c FROM Courses c  WHERE c.courseState LIKE '%" + state + "%'", Courses.class)
 				.getResultList();
 		return listCourses;
 	}
 
 	@Override
-	public List<Course> listAllCourse() {
+	public List<Courses> listAllCourse() {
 		String requete = "SELECT c FROM Courses c";
-		return pc.getEM().createQuery(requete,Course.class).getResultList();
+		return pc.getEM().createQuery(requete,Courses.class).getResultList();
 		
 	}
 
 	@Override
-	public Course findCourseByID(int id) {
+	public Courses findCourseByID(int id) {
 		// TODO Auto-generated method stub
-		return pc.getEM().find(Course.class, id);
+		return pc.getEM().find(Courses.class, id);
 	}
 
 	@Override
@@ -178,7 +178,7 @@ public class CourseManagement implements CourseManagementRemote, CourseManagemen
 	public void addP(CourseParticipation p) {
 		
 		int id= p.getCourse().getCourseID();
-		Course c= findCourseByID(id);
+		Courses c= findCourseByID(id);
 		
 		for(int i=0; i<= p.getParticipationPK().getNbrPlaces();i++){
 			c.getParticipant().add(p);
