@@ -17,6 +17,6 @@ public interface OffersInterfaceRemote  {
 	////////////////////////////////
 
 	public List<Lodging> getLodging();
-
+	public Lodging findLodgingById(int id);
 		
 }
